@@ -1,75 +1,26 @@
 <?php
+    $htmlFile = "html.txt";
+    $cssFile = "css.txt";
+    $jsFile = "js.txt";
 
     function saveTofile($content, $filename){
         $myfile = fopen($filename, "w") or die("Unable to open file!");        
         fwrite($myfile, $content);        
         fclose($myfile);
     }
-
-    function getFromfile($filename){
-        $myfile = fopen($filename,'r') or die("Unable to open file!");
-        $data = fread($myfile,filesize("webdictionary.txt"));
-        fclose($myfile);
-        return $data;
-    }
-
-    // $conn = new mysqli('localhost', 'root', '','formbuilder');
-    // if ($conn->connect_error) {
-    //     die("Connection failed: " . $conn->connect_error);
-    // }
-
-    function save($html, $css, $js, $conn){
-
-        // $query = "select * from content";
-        // $res = mysqli_query($conn,$query);
-        // if ($res->num_rows > 0){
-        //     $query = "update content SET scriptContent = '$html', cssContent='$css', jsContent='$js'";
-        //     if ($conn->query($query) === TRUE) {
-        //         echo "New record created successfully";
-        //     } else {
-        //         echo "Error: " . $sql . "<br>" . $conn->error;
-        //     }                
-        // }else{
-        //     $query = "insert into content (scriptContent,cssContent,jsContent) values ('$html','$css','$js')";            
-        //     if ($conn->query($query) === TRUE) {
-        //         echo "New record created successfully";
-        //     } else {
-        //         echo "Error: " . $sql . "<br>" . $conn->error;
-        //     }            
-        // }
-    }
-
-    // function open($conn){
-    //     $query = "select * from content";
-    //     $res = mysqli_query($conn,$query);
-    //     $scriptContent = ""; 
-    //     $cssContent = "";
-    //     $jsContent = "";
-    //     if ($res->num_rows > 0){
-    //         while ($row = mysqli_fetch_array($res)) {
-    //             $scriptContent = $row['scriptContent']; 
-    //             $cssContent = $row['cssContent'];
-    //             $jsContent = $row['jsContent'];
-    //         }
-    //     }
-    //     return [$scriptContent, $cssContent, $jsContent];
-    // }   
-
+    
 	if (isset($_POST['save'])){        
 		$scriptContent = $_POST['scriptContent'];
 		$cssContent = $_POST['cssContent'];
 		$jsContent = $_POST['jsContent'];		
-        $save = $_POST['save'];
+        $save = $_POST['save'];        
+
         if ($save == '1'){
-            save($scriptContent, $cssContent, $jsContent, $conn);        
+            saveTofile($scriptContent, $htmlFile);
+            saveTofile($cssContent, $cssFile);
+            saveTofile($jsContent, $jsFile);
         }
     }
-
-    // $data = open($conn);
-    
-    // $scriptContent = $data[0];
-    // $cssContent = $data[1];
-    // $jsContent = $data[2];
 
 ?>
 <!DOCTYPE html>
@@ -932,9 +883,9 @@
 
     </div>
     <form runat="server" id="scriptSubmit" name="scriptSubmit" method="post">
-        <input runat="server" type="hidden" id="scriptContent" name="scriptContent" value='<?php echo $scriptContent; ?>' />
-        <input runat="server" type="hidden" id="cssContent" name="cssContent" value='<?php echo $cssContent; ?>'  />
-        <input runat="server" type="hidden" id="jsContent" name="jsContent" value='<?php echo $jsContent; ?>' />
+        <input runat="server" type="hidden" id="scriptContent" name="scriptContent" />
+        <input runat="server" type="hidden" id="cssContent" name="cssContent" />
+        <input runat="server" type="hidden" id="jsContent" name="jsContent"  />
         <input type="hidden" id="save" name="save" value="1" />
     </form>
         <script>
@@ -960,3 +911,24 @@
         </script>
 </body>
 </html>
+
+
+<script>
+    (function(){        
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', './server.php');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                console.log(JSON.parse(xhr.responseText));
+                document.getElementById('scriptContent').value = data.html;
+                document.getElementById('cssContent').value = data.css;
+                document.getElementById('jsContent').value = data.js;
+            }
+            else {
+                alert('Request failed.  Returned status of ' + xhr.status);
+            }
+        };
+        xhr.send(); 
+    })();
+</script>
