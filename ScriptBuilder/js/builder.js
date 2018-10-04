@@ -17876,7 +17876,7 @@ function (e, t, n) {
 	function i(e) {
 		return function () {
 			var t, n = arguments[0];
-			for (t = "[" + (e ? e + ":" : "") + n + "] http://errors.angularjs.org/1.4.1/" + (e ? e + "/" : "") + n, n = 1; n < arguments.length; n++) {
+			for (t = "[" + (e ? e + ":" : "") + n + "] https://errors.angularjs.org/1.4.1/" + (e ? e + "/" : "") + n, n = 1; n < arguments.length; n++) {
 				t = t + (1 == n ? "?" : "&") + "p" + (n - 1) + "=";
 				var i, r = encodeURIComponent;
 				i = arguments[n], i = "function" == typeof i ? i.toString().replace(/ \{[\s\S]*$/, "") : "undefined" == typeof i ? "undefined" : "string" != typeof i ? JSON.stringify(i) : i, t += r(i)
@@ -26470,7 +26470,7 @@ function (e, t, n) {
 					}), n) var i = n;
 				else i = e.mainHead, $(i).find("#dynamic-fonts").remove();
 				var r = $(i).find("#dynamic-fonts")[0];
-				t = t.join("|").replace(/ /g, "+"), r ? r.href += "|" + t : i.append('<link rel="stylesheet" class="include" id="dynamic-fonts" href="http://fonts.googleapis.com/css?family=' + t + '">'), this.loading = !1
+				t = t.join("|").replace(/ /g, "+"), r ? r.href += "|" + t : i.append('<link rel="stylesheet" class="include" id="dynamic-fonts" href="https://fonts.googleapis.com/css?family=' + t + '">'), this.loading = !1
 			},
 			modal: $("#fonts-modal")
 		};
@@ -26914,7 +26914,7 @@ angular.module("builder.wysiwyg", []).factory("textStyles", function () {
 		}]
 	}
 }).controller("ToolbarController", ["$scope", "textStyles", function (e, t) {
-	e.href = "http://", e.fontSizes = t.fontSizes, e.baseFonts = t.baseFonts, e.icons = t.fontAwesomeIconList, e.font = {
+	e.href = "https://", e.fontSizes = t.fontSizes, e.baseFonts = t.baseFonts, e.icons = t.fontAwesomeIconList, e.font = {
 		size: "",
 		family: ""
 	}, e.$watchCollection("font", function (t, n) {
@@ -27769,7 +27769,7 @@ baseBuilderElements.push({
 	var listener = $scope.$on("builder.dom.loaded", function (e) {
 			var mainStyle = $('<style id="elements-css"></style>').appendTo($scope.frameHead),
 				customCss = "";
-			$http.get("http://www.chasedatacorp.com/assets/load-custom-elements.php").success(function (data) {
+			$http.get("https://www.chasedatacorp.com/assets/load-custom-elements.php").success(function (data) {
 				for (var i = data.length - 1; i >= 0; i--) {
 					var config = eval(data[i].config);
 					config.html = data[i].html, config.css = data[i].css, elements.addElement(config), customCss += "\n" + data[i].css
@@ -27822,7 +27822,7 @@ baseBuilderElements.push({
 				c = $("#description-container"),
 				u = $("#elements-list");
 			l[0].src = "about:blank", l.on("load", function () {
-				i = $(l.get(0).contentWindow.document), r = i.find("body"), o = i.find("head"), o.append('<base href="' + t.baseUrl + '">'), o.append('<link href="http://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), a = $('<link id="main-theme-sheet" rel="stylesheet" href="' + t.baseUrl + 'http://www.chasedatacorp.com/assets/css/bootstrap.min.css">').appendTo(o)[0], t.$on("builder.theme.changed", function (e, t) {
+				i = $(l.get(0).contentWindow.document), r = i.find("body"), o = i.find("head"), o.append('<base href="' + t.baseUrl + '">'), o.append('<link href="https://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), a = $('<link id="main-theme-sheet" rel="stylesheet" href="' + t.baseUrl + 'https://www.chasedatacorp.com/assets/css/bootstrap.min.css">').appendTo(o)[0], t.$on("builder.theme.changed", function (e, t) {
 					a.setAttribute("href", t.path)
 				}), o.append('<link rel="stylesheet" href="' + t.baseUrl + '/ScriptBuilder/css/iframe.css">'), s = $('<style id="custom-css"></style>').appendTo(o), u.on("mouseout", function (e) {
 					c.hide()
@@ -28555,7 +28555,7 @@ baseBuilderElements.push({
 		restrict: "A",
 		link: function (i) {
 			i.$on("builder.dom.loaded", function () {
-				i.frameHead.append('<base href="' + i.baseUrl + '">'), i.frameHead.append('<link id="main-sheet" rel="stylesheet" href="http://www.chasedatacorp.com/assets/css/bootstrap.min.css">'), i.frameHead.append('<link rel="stylesheet" href="ScriptBuilder/css/iframe.css">'), i.frameHead.append('<link href="http://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), e.customCss = $('<style id="editor-css"></style>').appendTo(i.frameHead), $(i.frameDoc).on("scroll", function () {
+				i.frameHead.append('<base href="' + i.baseUrl + '">'), i.frameHead.append('<link id="main-sheet" rel="stylesheet" href="https://www.chasedatacorp.com/assets/css/bootstrap.min.css">'), i.frameHead.append('<link rel="stylesheet" href="ScriptBuilder/css/iframe.css">'), i.frameHead.append('<link href="https://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), e.customCss = $('<style id="editor-css"></style>').appendTo(i.frameHead), $(i.frameDoc).on("scroll", function () {
 					i.hoverBox.hide()
 				}), $('[data-toggle="tooltip"]').tooltip({
 					container: "body"
@@ -28665,7 +28665,7 @@ baseBuilderElements.push({
 }]);
 var builder = {};
 angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAnimate", "builder.projects", "builder.elements", "builder.editors", "builder.wysiwyg", "dragAndDrop", "undoManager", "builder.styling", "builder.directives", "builder.inspector", "builder.settings"]).config(["$translateProvider", function (e) {
-	e.useUrlLoader("translations.json"), e.preferredLanguage("en"), e.useSanitizeValueStrategy("escaped")
+	/*e.useUrlLoader("translations.json"),*/ e.preferredLanguage("en"), e.useSanitizeValueStrategy("escaped")
 }]).run(["$rootScope", function (e) {
 	e.isWebkit = navigator.userAgent.indexOf("AppleWebKit") > -1, e.isIE = navigator.userAgent.indexOf("MSIE ") > -1 || navigator.userAgent.indexOf("Trident/") > -1, e.keys = keys, e.selectedLocale = selectedLocale, e.baseUrl = window.baseUrl || window.location.origin + window.location.pathname, e.isDemo = document.URL.indexOf("architect-lite.vebto.com") > -1, e.selected = {}
 }]).factory("bootstrapper", ["$rootScope", "project", "elements", "keybinds", "settings", function (e, t, n, i, r) {
@@ -28981,8 +28981,8 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 				for (var c = [], u = a.length - 1; u >= 0; u--) - 1 === c.indexOf(a[u]) && c.push(a[u]);
 				o += c.join("\n")
 			}
-			if (o += '<link href="http://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">', t) {
-				var h = e.baseUrl + "http://www.chasedatacorp.com/assets/css/bootstrap.min.css";
+			if (o += '<link href="https://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">', t) {
+				var h = e.baseUrl + "https://www.chasedatacorp.com/assets/css/bootstrap.min.css";
 				o += '<link href="' + h + '" rel="stylesheet">'
 			} else o += e.frameHead.find("#main-sheet")[0].outerHTML;
 			if (n)

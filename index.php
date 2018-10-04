@@ -28,11 +28,13 @@
 <head runat="server">
     <title></title>
 	<meta charset="UTF-8">
+    <meta http-equiv="expires" content="0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" type="image/png" href="https://www.chasedatacorp.com/Content/img/shared/favicon.png" />
     <style type="text/css">[ng-cloak]#splash{display:block!important}[ng-cloak]{display:none}#splash{display:none;position:absolute;top:45%;left:50%;width:6em;height:6em;overflow:hidden;border-radius:100%;z-index:0}@-webkit-keyframes fade{from{opacity:1}to{opacity:.2}}@keyframes fade{from{opacity:1}to{opacity:.2}}@-webkit-keyframes rotate{from{-webkit-transform:rotate(0deg)}to{-webkit-transform:rotate(360deg)}}@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}#splash::after,#splash::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%}#splash::before{background:linear-gradient(to right,green,#ff0);-webkit-animation:rotate 2.5s linear infinite;animation:rotate 2.5s linear infinite}#splash::after{background:linear-gradient(to bottom,red,#00f);-webkit-animation:fade 2s infinite alternate,rotate 2.5s linear reverse infinite;animation:fade 2s infinite alternate,rotate 2.5s linear reverse infinite}#splash-spinner{position:absolute;width:100%;height:100%;z-index:1;border-radius:100%;box-sizing:border-box;border-left:.5em solid transparent;border-right:.5em solid transparent;border-bottom:.5em solid rgba(255,255,255,.3);border-top:.5em solid rgba(255,255,255,.3);-webkit-animation:rotate .8s linear infinite;animation:rotate .8s linear infinite}</style>
 	<link rel="stylesheet" href="ScriptBuilder/css/builder.css?v2">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="ScriptBuilder/css/font-awesome.min.css">
 
     <script type="text/javascript">
@@ -68,6 +70,42 @@
         <div id="splash-spinner"></div>
     </div>
 -->
+    <form runat="server" id="scriptSubmit" name="scriptSubmit" method="post">
+        <input runat="server" type="hidden" id="scriptContent" name="scriptContent" />
+        <input runat="server" type="hidden" id="cssContent" name="cssContent" />
+        <input runat="server" type="hidden" id="jsContent" name="jsContent"  />
+        <input type="hidden" id="save" name="save" value="1" />
+    </form>
+    <script>
+        (function(){        
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', './server.php');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    console.log(JSON.parse(xhr.responseText));
+                    document.getElementById('scriptContent').value = data.html;
+                    document.getElementById('cssContent').value = data.css;
+                    document.getElementById('jsContent').value = data.js;
+                    loadScript('ScriptBuilder/js/builder.js?v2');
+                }
+                else {
+                    alert('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send(); 
+        })();
+        function loadScript(url)
+        {
+            // Adding the script tag to the head as suggested before
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = url;
+            // Fire the loading
+            head.appendChild(script);
+        }
+    </script>
 	<div ng-cloak style="height: 100%" ng-controller="BuilderController">
         <section id="viewport" class="clearfix">
             <div class="flyout-from-right" ng-class="flyoutOpen ? 'open' : 'closed'">
@@ -878,16 +916,10 @@
                  selectedLocale = 'en';
         </script>
 
-        <script src="ScriptBuilder/js/builder.min.js?v2"></script>
+        <!-- <script src="ScriptBuilder/js/builder.js?v2"></script> -->
         <script src="ScriptBuilder/js/vendor/ace/ace.js"></script>
 
     </div>
-    <form runat="server" id="scriptSubmit" name="scriptSubmit" method="post">
-        <input runat="server" type="hidden" id="scriptContent" name="scriptContent" />
-        <input runat="server" type="hidden" id="cssContent" name="cssContent" />
-        <input runat="server" type="hidden" id="jsContent" name="jsContent"  />
-        <input type="hidden" id="save" name="save" value="1" />
-    </form>
         <script>
             function getScriptContent(html, css, js) {
                 document.getElementById('scriptContent').value = html;
@@ -913,22 +945,3 @@
 </html>
 
 
-<script>
-    (function(){        
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', './server.php');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var data = JSON.parse(xhr.responseText);
-                console.log(JSON.parse(xhr.responseText));
-                document.getElementById('scriptContent').value = data.html;
-                document.getElementById('cssContent').value = data.css;
-                document.getElementById('jsContent').value = data.js;
-            }
-            else {
-                alert('Request failed.  Returned status of ' + xhr.status);
-            }
-        };
-        xhr.send(); 
-    })();
-</script>
