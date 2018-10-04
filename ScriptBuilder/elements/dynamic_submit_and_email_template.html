@@ -1,0 +1,50 @@
+<style>
+</style>
+
+<input type='submit' control="submit" action="submit_and_email_template" email-to="EMAIL ADDRESS OR FORM FIELD" email-template="SCRIPT NAME" value='Submit and Email' class="control-submit-email-template btn btn-success"/>
+
+<script>
+    ({
+        name: 'submit&email  template',
+        nodes: '*',
+        class: 'control-submit-email-template',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'publish',
+        attributes: {
+            'caption  ': {
+                text: true,
+                value: 'Submit and Email',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('value', text);
+                }
+            },
+            'email to': {
+                text: true,
+                value: 'EMAIL ADDRESS OR FORM FIELD',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-to');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-to', text);
+                }
+            },
+            'email template': {
+                text: true,
+                value: 'SCRIPT NAME',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-template');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-template', text);
+                }
+            }
+        }
+    });
+</script>

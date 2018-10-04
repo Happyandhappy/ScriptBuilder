@@ -1,0 +1,56 @@
+<style>
+</style>
+
+<form control="form" style="padding: 12px;" class="dynamic-form">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Contact Form</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label">First Name</label>
+                <input class="control-input form-control" size="4" type="text" control="input" field-name="FirstName">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Last Name</label>
+                <input class="control-input form-control" size="4" type="text" control="input" field-name="LastName">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Address</label>
+                <input class="control-input form-control" size="4" type="text" control="input" field-name="Address">
+            </div>
+
+            <section class="row">
+                <div class="col-md-4">
+                    <label class="control-label">City</label>
+                    <input class="control-input form-control" size="4" type="text" control="input" field-name="City" placeholder="City">
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label">State</label>
+                    <input class="control-input form-control" size="4" type="text" control="input" field-name="State" placeholder="State">
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label">ZipCode</label>
+                    <input class="control-input form-control" size="4" type="text" control="input" field-name="ZipCode" placeholder="ZipCode">
+                </div>
+            </section>
+        </div>
+
+        <div class="panel-footer">
+            <input type='submit' control='submit' value='Save Data' class="control-submit form-control btn btn-success" />
+        </div>
+    </div>
+</form>
+
+    <script>
+        ({
+            name: 'form',
+            nodes: '*',
+            frameworks: ['bootstrap'],
+            types: ['flow'],
+            validChildren: ['flow'],
+            previewScale: '0.25',
+            category: 'dynamic',
+            icon: 'doc-text-inv',
+        });
+    </script>

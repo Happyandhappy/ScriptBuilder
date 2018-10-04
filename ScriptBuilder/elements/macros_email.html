@@ -1,0 +1,22 @@
+<style>
+</style>
+
+<div>
+    (#EMAIL:SUBJECT:BEGIN#)Subject(#EMAIL:SUBJECT:END#)<br />
+    (#EMAIL:FROM:BEGIN#)From(#EMAIL:FROM:END#)<br />
+    (#EMAIL:CC:BEGIN#)(#EMAIL:CC:END#)<br />
+    (#EMAIL:BCC:BEGIN#)(#EMAIL:BCC:END#)
+</div>
+
+<script>
+    ({
+        name: 'email',
+        nodes: ['macros'],
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'macroses',
+        icon: 'newspaper-1'
+    });
+</script>

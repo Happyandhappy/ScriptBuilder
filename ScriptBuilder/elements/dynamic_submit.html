@@ -1,0 +1,30 @@
+<style>
+</style>
+
+<input type='submit' control="submit" action='submit' value='Submit' class="control-submit btn btn-success" />
+
+<script>
+    ({
+        name: 'submit',
+        nodes: '*',
+        class: 'control-submit',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'ok-outline',
+        attributes: {
+            'caption  ': {
+                text: true,
+                value: 'Submit',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('value', text);
+                }
+            }
+        }
+    });
+</script>

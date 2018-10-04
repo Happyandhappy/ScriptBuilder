@@ -1,0 +1,279 @@
+<style>
+</style>
+
+<div class="control-checkbox checkbox">
+    <label class="control-checkbox-label">
+        <input class="control-checkbox-check" type="checkbox" control="input" value="Default Value" field-name="Field Name" unchecked-value="">
+        <p class="control-checkbox-caption">Checkbox Caption</p>
+    </label>
+</div>
+
+<script>
+    ({
+        name: 'checkbox',
+        nodes: '*',
+        class: 'control-checkbox',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: false,
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'check',
+        attributes: {
+            'caption    ': {
+                text: true,
+                value: 'Checkbox Caption',
+                onAssign: function ($scope) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-caption") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        this.value = control.innerText;
+                },
+                onChange: function ($scope, text) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-caption") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        control.innerText = text;
+                }
+            },
+            'value    ': {
+                text: true,
+                value: 'Default Value',
+                onAssign: function ($scope) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if(control != null)
+                        this.value = control.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        control.setAttribute('value', text);
+                }
+            },
+            'unchecked value    ': {
+                text: true,
+                value: '',
+                onAssign: function ($scope) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        this.value = control.getAttribute('unchecked-value');
+                },
+                onChange: function ($scope, text) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        control.setAttribute('unchecked-value', text);
+                }
+            },
+            'checked    ': {
+                value: false,
+                list: [
+                    { name: 'False', value: 'False' },
+                    { name: 'True', value: 'True' },
+                ],
+                onAssign: function ($scope) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                    {
+                        for (var t = this.list.length - 1; t >= 0; t--)
+                            if (control.checked == (this.list[t].value == 'True'))
+                                return this.value = this.list[t];
+
+                        return this.value = this.list[0]
+                    }
+                },
+                onChange: function ($scope, text) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null) {
+                        control.checked = (text.value == 'True');
+                        if (control.checked)
+                            control.setAttribute('checked', text.value);
+                        else
+                            control.removeAttribute('checked');
+                    }
+                }
+            },
+            'Lead Field': {
+                text: true,
+                value: 'Field Name',
+                onAssign: function ($scope) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        this.value = control.getAttribute('field-name');
+                },
+                onChange: function ($scope, text) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-checkbox-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-checkbox-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        control.setAttribute('field-name', text);
+                }
+            }
+        }
+    });
+</script>

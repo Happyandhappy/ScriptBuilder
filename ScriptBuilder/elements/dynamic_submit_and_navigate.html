@@ -1,0 +1,40 @@
+<style>
+</style>
+
+<input type='submit' control="submit" action="submit_and_navigate" navigate-to="SCRIPT NAME" value='Submit and Navigate' class="control-navigate-submit btn btn-success" />
+
+<script>
+    ({
+        name: 'submit  navigate',
+        nodes: '*',
+        class: 'control-navigate-submit',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'forward',
+        attributes: {
+            'caption  ': {
+                text: true,
+                value: 'Navigate',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('value', text);
+                }
+            },
+            'navigate to': {
+                text: true,
+                value: 'SCRIPT NAME',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('navigate-to');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('navigate-to', text);
+                }
+            }
+        }
+    });
+</script>

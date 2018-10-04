@@ -1,0 +1,40 @@
+<style>
+</style>
+
+<input type='submit' control="submit" action="submit_and_email" email-to="EMAIL ADDRESS OR FORM FIELD" value='Submit and Email' class='control-submit-email btn btn-success' />
+
+<script>
+    ({
+        name: 'submit  email',
+        nodes: '*',
+        class: 'control-submit-email',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'upload',
+        attributes: {
+            'caption  ': {
+                text: true,
+                value: 'Submit and Email',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('value', text);
+                }
+            },
+            'email to': {
+                text: true,
+                value: 'EMAIL ADDRESS OR FORM FIELD',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-to');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-to', text);
+                }
+            }
+        }
+    });
+</script>

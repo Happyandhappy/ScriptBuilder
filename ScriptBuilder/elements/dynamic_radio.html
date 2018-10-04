@@ -1,0 +1,72 @@
+<style>
+</style>
+
+<div class="control-radio radio">
+    <label class="control-radio-label">
+        <input class="control-radio-check" type="radio" control="input" value="Option1"
+               field-name="Field Name" checked>Option 1
+    </label>
+    <label class="control-radio-label">
+        <input class="control-radio-check" type="radio" control="input" value="Option2"
+               field-name="Field Name">Option 2
+    </label>
+    <label class="control-radio-label">
+        <input class="control-radio-check" type="radio" control="input" value="Option3"
+               field-name="Field Name">Option 3
+    </label>
+</div>
+
+<script>
+    ({
+        name: 'radio',
+        nodes: '*',
+        class: 'control-radio',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: false,
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'bullseye',
+        attributes: {
+            'Lead Field': {
+                text: true,
+                value: 'Field Name',
+                onAssign: function ($scope) {
+                    var control = null;
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-radio-label") {
+                            control = $scope.selected.node.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control == null)
+                        return;
+
+                    for (var i = 0; i < control.childNodes.length; i++) {
+                        if (control.childNodes[i].className == "control-radio-check") {
+                            control = control.childNodes[i];
+                            break;
+                        }
+                    }
+
+                    if (control != null)
+                        this.value = control.getAttribute('field-name');
+                },
+                onChange: function ($scope, text) {
+                    for (var i = 0; i < $scope.selected.node.childNodes.length; i++) {
+                        if ($scope.selected.node.childNodes[i].className == "control-radio-label") {
+                            label = $scope.selected.node.childNodes[i];
+                            for (var j = 0; j < label.childNodes.length; j++) {
+                                if (label.childNodes[j].className == "control-radio-check") {
+                                    label.childNodes[j].setAttribute('field-name', text);
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>

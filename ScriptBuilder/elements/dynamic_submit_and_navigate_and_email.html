@@ -1,0 +1,60 @@
+<style>
+</style>
+
+<input type='submit' control="submit" action="submit_and_navigate_and_email" navigate-to="SCRIPT NAME" email-to="EMAIL ADDRESS OR FORM FIELD" email-template="SCRIPT NAME" value='Submit and Email' class="control-navigate-submit-email btn btn-success"/>
+
+<script>
+    ({
+        name: 'submit&nav  email',
+        class: 'control-navigate-submit-email',
+        nodes: '*',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'export',
+        attributes: {
+            'caption  ': {
+                text: true,
+                value: 'Navigate',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('value', text);
+                }
+            },
+            'navigate to': {
+                text: true,
+                value: 'SCRIPT NAME',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('navigate-to');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('navigate-to', text);
+                }
+            },
+            'email to': {
+                text: true,
+                value: 'EMAIL ADDRESS OR FORM FIELD',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-to');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-to', text);
+                }
+            },
+            'email template': {
+                text: true,
+                value: 'SCRIPT NAME',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-template');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-template', text);
+                }
+            }
+        }
+    });
+</script>

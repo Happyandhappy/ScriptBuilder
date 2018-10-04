@@ -1,0 +1,63 @@
+<style>
+</style>
+
+<input class="control-input form-control" size="4" type="text" control="input" field-name="Field Name">
+
+<script>
+    ({
+        nodes: '*',
+        class: 'control-input',
+        name: 'input',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'minus-outline',
+        attributes: {
+            'text    ': {
+                text: true,
+                value: '',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('value', text);
+                }
+            },
+            'type      ': {
+                value: false,
+                list: [{ name: "Text", value: "text" }, { name: "Password", value: "password" }, { name: "Date", value: "date" }, { name: "Email", value: "email" }, { name: "Datetime", value: "datetime" }, { name: "Datetime Local", value: "datetime-local" }, { name: "Month", value: "month" }, { name: "Time", value: "time" }, { name: "Week", value: "week" }, { name: "Number", value: "number" }, { name: "Url", value: "url" }, { name: "Search", value: "search" }, { name: "Tel", value: "tel" }, { name: "Color", value: "color" }],
+                onAssign: function (e) {
+                    for (var t = this.list.length - 1; t >= 0; t--)
+                        if (e.selected.node.getAttribute("type") == this.list[t].value)
+                            return this.value = this.list[t];
+                    return this.value = this.list[0]
+                },
+                onChange: function (e, t) {
+                    e.selected.node.setAttribute("type", t.value)
+                }
+            },
+            'placeholder    ': {
+                text: true,
+                value: '',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('placeholder');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('placeholder', text);
+                }
+            },
+            'Lead Field': {
+                text: true,
+                value: 'Field Name',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('field-name');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('field-name', text);
+                }
+            }
+        }
+    });
+</script>

@@ -1,0 +1,40 @@
+<style>
+</style>
+
+<input type='submit' control="submit" action='submit_and_google' value='Submit and Save in Google Doc' google-document="DOCUMENT NAME" class="control-submit-google btn btn-success" />
+
+<script>
+    ({
+        name: 'submit  google',
+        nodes: '*',
+        class: 'control-submit-google',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'google',
+        attributes: {
+            'caption  ': {
+                text: true,
+                value: 'Submit and Save in Google Doc',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('value');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('value', text);
+                }
+            },
+            'google doc': {
+                text: true,
+                value: 'DOCUMENT NAME',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('google-document');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('google-document', text);
+                }
+            },
+        }
+    });
+</script>

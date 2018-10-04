@@ -1,0 +1,79 @@
+<style>
+</style>
+
+<form control="email" class="dynamic-email" email-subject="Email Subject" email-from="Sender Name" email-cc="" email-bcc="" email-as-html="true">
+    <br /><br /><br />
+</form>
+
+<script>
+    ({
+        name: 'email',
+        nodes: '*',
+        class: 'dynamic-email',
+        frameworks: ['bootstrap'],
+        types: ['flow'],
+        validChildren: ['flow'],
+        previewScale: '0.25',
+        category: 'dynamic',
+        icon: 'newspaper',
+        attributes: {
+            'subject  ': {
+                text: true,
+                value: 'Email Subject',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-subject');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-subject', text);
+                }
+            },
+            'from    ': {
+                text: true,
+                value: 'Sender Name',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-from');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-from', text);
+                }
+            },
+            'copy    ': {
+                text: true,
+                value: '',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-cc');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-cc', text);
+                }
+            },
+            'hidden copy  ': {
+                text: true,
+                value: '',
+                onAssign: function ($scope) {
+                    this.value = $scope.selected.node.getAttribute('email-bcc');
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-bcc', text);
+                }
+            },
+            'body type    ': {
+                list: [
+                    { name: 'Html', value: 'True' },
+                    { name: 'Text', value: 'False' },
+                ],
+                text: false,
+                value: false,
+                onAssign: function ($scope) {
+                    for (var t = this.list.length - 1; t >= 0; t--)
+                        if ($scope.selected.node.getAttribute("email-as-html") == this.list[t].value)
+                            return this.value = this.list[t];
+                    return this.value = this.list[0]
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.setAttribute('email-as-html', text.value);
+                }
+            }
+        }
+    });
+</script>
