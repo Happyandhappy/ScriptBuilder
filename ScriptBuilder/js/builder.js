@@ -1,3 +1,5 @@
+var htmlContent = "";
+
 function trim(e) {
 	return e.replace(/^\s+|\s+$/g, "")
 }
@@ -7515,7 +7517,8 @@ else if ("undefined" != typeof exports) {
 					})
 				}), this._trigger("stop", t), this.helper.remove(), !1
 			}
-		}), e.widget("ui.selectmenu", {
+		}), 
+		e.widget("ui.selectmenu", {
 			version: "1.11.0",
 			defaultElement: "<select>",
 			options: {
@@ -27411,7 +27414,7 @@ baseBuilderElements.push({
 	name: "select",
 	nodes: ["select"],
 	frameworks: ["bootstrap"],
-	html: '<select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>',
+	html: '<select class="form-control"><options>1</options><option>2</option><option>3</option><option>4</option><option>5</option></select>',
 	types: ["flow", "phrasing", "interactive", "listed", "labelable", "submittable", "resettable", "reassociateable", "form-associated"],
 	validChildren: !1,
 	attributes: {
@@ -28961,13 +28964,17 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			}
 		},
 		loadHtml: function (t) {
+			htmlContent = t;
 			if (t) {
 				var n = t.match(/(<body[^>]*>)((.|[\r\n])+?)<\/body>/),
 					i = t.match(/<link.+?class="include.*?".+?">/g);
 				if (n) {
 					var r = (new DOMParser).parseFromString(n[1] + "</body>", "text/html");
-					e.frameDoc.body.innerHTML = n[2], 
-					r && (e.frameDoc.body.className = r.body.className, e.frameDoc.body.id = r.body.id)
+					e.frameDoc.body.innerHTML = n[2],
+					r && (
+						e.frameDoc.body.className = r.body.className, 
+						e.frameDoc.body.id = r.body.id
+					)
 				} else e.frameBody.html("");
 				i && i.length && e.frameHead.append(i.join("\n"))
 			} else e.frameBody.html(""); /*e.frameBody.html(document.getElementById('scriptContent').innerHTML); */
@@ -29232,7 +29239,8 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			t.columnsResizable()
 		}
 	}
-}]), angular.module("builder.editors", []).controller("CodeEditorController", ["$scope", "codeEditors", "dom", "project", function (e, t, n, i) {
+}]), 
+angular.module("builder.editors", []).controller("CodeEditorController", ["$scope", "codeEditors", "dom", "project", function (e, t, n, i) {
 	e.editors = t, e.themes = ["chrome", "clouds", "crimson_editor", "tomorrow_night", "dawn", "dreamweaver", "eclipse", "github", "solarized_light", "textmate", "tomorrow", "xcode", "kuroir", "katzen_milch", "ambiance", "chaos", "clouds_midnight", "cobalt", "idle_fingers", "kr_theme", "merbivore", "merbivore_soft", "mono_industrial", "monokai", "pastel_on_dark", "solarized_light", "terminal", "tomorrow_night_blue", "tomorrow_night_bright", "tomorrow_night_80s", "twilight", "vibrant_ink"], e.$on("builder.page.changed", function () {
 		t.cache.htmlEditor && (t.ignoreHtmlEditorChange = !1, t.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), t.reloadCss(), t.cache.jsEditor.setValue(i.activePage.js, -1))
 	}), e.$on("element.reselected", function (e, n) {
@@ -29274,7 +29282,10 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			}, 1e3)
 		},
 		initHtmlEditor: function () {
-			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), this.cache.htmlEditor.getSession().setMode("ace/mode/html"), this.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), e.$on("builder.html.changed", function () {
+			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), 
+			this.cache.htmlEditor.getSession().setMode("ace/mode/html"), 
+			this.cache.htmlEditor.setValue(htmlContent, -1), 
+			e.$on("builder.html.changed", function () {
 				o.ignoreHtmlEditorChange = !1, o.cache.htmlEditor.setValue(style_html(n.getHtml()), -1)
 			}), this.cache.htmlEditor.on("focus", function (e) {
 				r.hideEditor()
@@ -29932,7 +29943,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			e.savingChanges = !0, t || (t = "all");
 			var o = l.getPage(l.activePage.name);
 			("all" == t || t.indexOf("html") > -1) && (o.html = style_html(r.getHtml())), ("all" == t || t.indexOf("css") > -1) && (o.css = i.compile()), a.set("architect-project", this.active);
-			getScriptContent(o.html, o.css, o.js), n(function () {
+			getScriptContent(htmlContent, o.css, o.js), n(function () {
 				e.savingChanges = !1
 			}, 300);
 		},
