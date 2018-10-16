@@ -1,5 +1,3 @@
-var htmlContent = "";
-
 function trim(e) {
 	return e.replace(/^\s+|\s+$/g, "")
 }
@@ -7517,8 +7515,7 @@ else if ("undefined" != typeof exports) {
 					})
 				}), this._trigger("stop", t), this.helper.remove(), !1
 			}
-		}), 
-		e.widget("ui.selectmenu", {
+		}), e.widget("ui.selectmenu", {
 			version: "1.11.0",
 			defaultElement: "<select>",
 			options: {
@@ -17879,7 +17876,7 @@ function (e, t, n) {
 	function i(e) {
 		return function () {
 			var t, n = arguments[0];
-			for (t = "[" + (e ? e + ":" : "") + n + "] https://errors.angularjs.org/1.4.1/" + (e ? e + "/" : "") + n, n = 1; n < arguments.length; n++) {
+			for (t = "[" + (e ? e + ":" : "") + n + "] http://errors.angularjs.org/1.4.1/" + (e ? e + "/" : "") + n, n = 1; n < arguments.length; n++) {
 				t = t + (1 == n ? "?" : "&") + "p" + (n - 1) + "=";
 				var i, r = encodeURIComponent;
 				i = arguments[n], i = "function" == typeof i ? i.toString().replace(/ \{[\s\S]*$/, "") : "undefined" == typeof i ? "undefined" : "string" != typeof i ? JSON.stringify(i) : i, t += r(i)
@@ -26473,7 +26470,7 @@ function (e, t, n) {
 					}), n) var i = n;
 				else i = e.mainHead, $(i).find("#dynamic-fonts").remove();
 				var r = $(i).find("#dynamic-fonts")[0];
-				t = t.join("|").replace(/ /g, "+"), r ? r.href += "|" + t : i.append('<link rel="stylesheet" class="include" id="dynamic-fonts" href="https://fonts.googleapis.com/css?family=' + t + '">'), this.loading = !1
+				t = t.join("|").replace(/ /g, "+"), r ? r.href += "|" + t : i.append('<link rel="stylesheet" class="include" id="dynamic-fonts" href="http://fonts.googleapis.com/css?family=' + t + '">'), this.loading = !1
 			},
 			modal: $("#fonts-modal")
 		};
@@ -26917,7 +26914,7 @@ angular.module("builder.wysiwyg", []).factory("textStyles", function () {
 		}]
 	}
 }).controller("ToolbarController", ["$scope", "textStyles", function (e, t) {
-	e.href = "https://", e.fontSizes = t.fontSizes, e.baseFonts = t.baseFonts, e.icons = t.fontAwesomeIconList, e.font = {
+	e.href = "http://", e.fontSizes = t.fontSizes, e.baseFonts = t.baseFonts, e.icons = t.fontAwesomeIconList, e.font = {
 		size: "",
 		family: ""
 	}, e.$watchCollection("font", function (t, n) {
@@ -27414,7 +27411,7 @@ baseBuilderElements.push({
 	name: "select",
 	nodes: ["select"],
 	frameworks: ["bootstrap"],
-	html: '<select class="form-control"><options>1</options><option>2</option><option>3</option><option>4</option><option>5</option></select>',
+	html: '<select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>',
 	types: ["flow", "phrasing", "interactive", "listed", "labelable", "submittable", "resettable", "reassociateable", "form-associated"],
 	validChildren: !1,
 	attributes: {
@@ -27772,7 +27769,7 @@ baseBuilderElements.push({
 	var listener = $scope.$on("builder.dom.loaded", function (e) {
 			var mainStyle = $('<style id="elements-css"></style>').appendTo($scope.frameHead),
 				customCss = "";
-			$http.get("https://www.chasedatacorp.com/assets/load-custom-elements.php").success(function (data) {
+			$http.get("http://www.chasedatacorp.com/assets/load-custom-elements.php").success(function (data) {
 				for (var i = data.length - 1; i >= 0; i--) {
 					var config = eval(data[i].config);
 					config.html = data[i].html, config.css = data[i].css, elements.addElement(config), customCss += "\n" + data[i].css
@@ -27825,7 +27822,7 @@ baseBuilderElements.push({
 				c = $("#description-container"),
 				u = $("#elements-list");
 			l[0].src = "about:blank", l.on("load", function () {
-				i = $(l.get(0).contentWindow.document), r = i.find("body"), o = i.find("head"), o.append('<base href="' + t.baseUrl + '">'), o.append('<link href="https://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), a = $('<link id="main-theme-sheet" rel="stylesheet" href="' + t.baseUrl + 'https://www.chasedatacorp.com/assets/css/bootstrap.min.css">').appendTo(o)[0], t.$on("builder.theme.changed", function (e, t) {
+				i = $(l.get(0).contentWindow.document), r = i.find("body"), o = i.find("head"), o.append('<base href="' + t.baseUrl + '">'), o.append('<link href="http://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), a = $('<link id="main-theme-sheet" rel="stylesheet" href="' + t.baseUrl + 'http://www.chasedatacorp.com/assets/css/bootstrap.min.css">').appendTo(o)[0], t.$on("builder.theme.changed", function (e, t) {
 					a.setAttribute("href", t.path)
 				}), o.append('<link rel="stylesheet" href="' + t.baseUrl + '/ScriptBuilder/css/iframe.css">'), s = $('<style id="custom-css"></style>').appendTo(o), u.on("mouseout", function (e) {
 					c.hide()
@@ -28558,7 +28555,7 @@ baseBuilderElements.push({
 		restrict: "A",
 		link: function (i) {
 			i.$on("builder.dom.loaded", function () {
-				i.frameHead.append('<base href="' + i.baseUrl + '">'), i.frameHead.append('<link id="main-sheet" rel="stylesheet" href="https://www.chasedatacorp.com/assets/css/bootstrap.min.css">'), i.frameHead.append('<link rel="stylesheet" href="ScriptBuilder/css/iframe.css">'), i.frameHead.append('<link href="https://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), e.customCss = $('<style id="editor-css"></style>').appendTo(i.frameHead), $(i.frameDoc).on("scroll", function () {
+				i.frameHead.append('<base href="' + i.baseUrl + '">'), i.frameHead.append('<link id="main-sheet" rel="stylesheet" href="http://www.chasedatacorp.com/assets/css/bootstrap.min.css">'), i.frameHead.append('<link rel="stylesheet" href="ScriptBuilder/css/iframe.css">'), i.frameHead.append('<link href="http://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">'), e.customCss = $('<style id="editor-css"></style>').appendTo(i.frameHead), $(i.frameDoc).on("scroll", function () {
 					i.hoverBox.hide()
 				}), $('[data-toggle="tooltip"]').tooltip({
 					container: "body"
@@ -28668,7 +28665,7 @@ baseBuilderElements.push({
 }]);
 var builder = {};
 angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAnimate", "builder.projects", "builder.elements", "builder.editors", "builder.wysiwyg", "dragAndDrop", "undoManager", "builder.styling", "builder.directives", "builder.inspector", "builder.settings"]).config(["$translateProvider", function (e) {
-	/*e.useUrlLoader("translations.json"),*/ e.preferredLanguage("en"), e.useSanitizeValueStrategy("escaped")
+	e.useUrlLoader("translations.json"), e.preferredLanguage("en"), e.useSanitizeValueStrategy("escaped")
 }]).run(["$rootScope", function (e) {
 	e.isWebkit = navigator.userAgent.indexOf("AppleWebKit") > -1, e.isIE = navigator.userAgent.indexOf("MSIE ") > -1 || navigator.userAgent.indexOf("Trident/") > -1, e.keys = keys, e.selectedLocale = selectedLocale, e.baseUrl = window.baseUrl || window.location.origin + window.location.pathname, e.isDemo = document.URL.indexOf("architect-lite.vebto.com") > -1, e.selected = {}
 }]).factory("bootstrapper", ["$rootScope", "project", "elements", "keybinds", "settings", function (e, t, n, i, r) {
@@ -28964,17 +28961,13 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			}
 		},
 		loadHtml: function (t) {
-			htmlContent = t;
 			if (t) {
 				var n = t.match(/(<body[^>]*>)((.|[\r\n])+?)<\/body>/),
 					i = t.match(/<link.+?class="include.*?".+?">/g);
 				if (n) {
 					var r = (new DOMParser).parseFromString(n[1] + "</body>", "text/html");
-					e.frameDoc.body.innerHTML = n[2],
-					r && (
-						e.frameDoc.body.className = r.body.className, 
-						e.frameDoc.body.id = r.body.id
-					)
+					e.frameDoc.body.innerHTML = n[2], 
+					r && (e.frameDoc.body.className = r.body.className, e.frameDoc.body.id = r.body.id)
 				} else e.frameBody.html("");
 				i && i.length && e.frameHead.append(i.join("\n"))
 			} else e.frameBody.html(""); /*e.frameBody.html(document.getElementById('scriptContent').innerHTML); */
@@ -28988,8 +28981,8 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 				for (var c = [], u = a.length - 1; u >= 0; u--) - 1 === c.indexOf(a[u]) && c.push(a[u]);
 				o += c.join("\n")
 			}
-			if (o += '<link href="https://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">', t) {
-				var h = e.baseUrl + "https://www.chasedatacorp.com/assets/css/bootstrap.min.css";
+			if (o += '<link href="http://www.chasedatacorp.com/assets/css/font-awesome.min.css" rel="stylesheet">', t) {
+				var h = e.baseUrl + "http://www.chasedatacorp.com/assets/css/bootstrap.min.css";
 				o += '<link href="' + h + '" rel="stylesheet">'
 			} else o += e.frameHead.find("#main-sheet")[0].outerHTML;
 			if (n)
@@ -29022,12 +29015,18 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			e && "BODY" != e.nodeName && (this.copiedNode = $(e).clone())
 		},
 		paste: function (n) {
+			// var html = e.originalEvent.clipboardData;						
 			if (n && this.copiedNode) {
 				"BODY" == n.nodeName ? $(n).append(this.copiedNode) : $(n).after(this.copiedNode);
 				var i = {
 					node: this.copiedNode
 				};
-				i.parent = i.node.parent(), i.parentContents = i.parent.contents(), i.undoIndex = i.parentContents.index(i.node.get(0)), t.add("insertNode", i), this.copiedNode = null, e.$broadcast("builder.html.changed")
+				i.parent = i.node.parent(), 
+				i.parentContents = i.parent.contents(), 
+				i.undoIndex = i.parentContents.index(i.node.get(0)), 
+				t.add("insertNode", i), 
+				this.copiedNode = null, 
+				e.$broadcast("builder.html.changed")
 			}
 		},
 		cut: function (e) {
@@ -29239,8 +29238,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			t.columnsResizable()
 		}
 	}
-}]), 
-angular.module("builder.editors", []).controller("CodeEditorController", ["$scope", "codeEditors", "dom", "project", function (e, t, n, i) {
+}]), angular.module("builder.editors", []).controller("CodeEditorController", ["$scope", "codeEditors", "dom", "project", function (e, t, n, i) {
 	e.editors = t, e.themes = ["chrome", "clouds", "crimson_editor", "tomorrow_night", "dawn", "dreamweaver", "eclipse", "github", "solarized_light", "textmate", "tomorrow", "xcode", "kuroir", "katzen_milch", "ambiance", "chaos", "clouds_midnight", "cobalt", "idle_fingers", "kr_theme", "merbivore", "merbivore_soft", "mono_industrial", "monokai", "pastel_on_dark", "solarized_light", "terminal", "tomorrow_night_blue", "tomorrow_night_bright", "tomorrow_night_80s", "twilight", "vibrant_ink"], e.$on("builder.page.changed", function () {
 		t.cache.htmlEditor && (t.ignoreHtmlEditorChange = !1, t.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), t.reloadCss(), t.cache.jsEditor.setValue(i.activePage.js, -1))
 	}), e.$on("element.reselected", function (e, n) {
@@ -29272,6 +29270,7 @@ angular.module("builder.editors", []).controller("CodeEditorController", ["$scop
 			e && "undefined" !== e && this.cache.cssEditor.setValue(t.compile(), -1), this.loadingCss = !1
 		},
 		init: function () {
+
 			this.cache.wrapper = $("#code-editor-wrapper"), 
 			this.cache.editors = $("#html-code-editor, #css-code-editor, #js-code-editor"), 
 			this.cache.htmlEditor = ace.edit("html-code-editor"), 
@@ -29282,10 +29281,7 @@ angular.module("builder.editors", []).controller("CodeEditorController", ["$scop
 			}, 1e3)
 		},
 		initHtmlEditor: function () {
-			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), 
-			this.cache.htmlEditor.getSession().setMode("ace/mode/html"), 
-			this.cache.htmlEditor.setValue(htmlContent, -1), 
-			e.$on("builder.html.changed", function () {
+			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), this.cache.htmlEditor.getSession().setMode("ace/mode/html"), this.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), e.$on("builder.html.changed", function () {
 				o.ignoreHtmlEditorChange = !1, o.cache.htmlEditor.setValue(style_html(n.getHtml()), -1)
 			}), this.cache.htmlEditor.on("focus", function (e) {
 				r.hideEditor()
@@ -29943,7 +29939,7 @@ angular.module("builder.editors", []).controller("CodeEditorController", ["$scop
 			e.savingChanges = !0, t || (t = "all");
 			var o = l.getPage(l.activePage.name);
 			("all" == t || t.indexOf("html") > -1) && (o.html = style_html(r.getHtml())), ("all" == t || t.indexOf("css") > -1) && (o.css = i.compile()), a.set("architect-project", this.active);
-			getScriptContent(htmlContent, o.css, o.js), n(function () {
+			getScriptContent(o.html, o.css, o.js), n(function () {
 				e.savingChanges = !1
 			}, 300);
 		},
@@ -30096,22 +30092,78 @@ angular.module("builder.editors", []).controller("CodeEditorController", ["$scop
 			})
 		}
 	}
-}), angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager", function (e, t, n) {
+}), 
+angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager", function (e, t, n) {
 	var i = {
 		booted: !1,
 		init: function () {
+			$(e.frameDoc.documentElement).on('paste',function(eve){
+				eve.preventDefault();
+				var html = eve.originalEvent.clipboardData.getData("text/html");
+				
+			    var styleStart = html.indexOf('<style>', html.indexOf('<style>') + 1);
+			    var styleEnd = html.indexOf('</style>', html.indexOf('</style>') + 1);
+			    var styleContent = e.customCss[0].innerHTML + '\n' + html.substr(styleStart, styleEnd - styleStart) + "</style>";			    
+			    styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
+			    styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
+			    styleContent = styleContent.replace(/\/[*].*[*]\//g,'');
+			    e.customCss[0].innerHTML = styleContent;
+
+				var htmlStart = html.indexOf('<!--StartFragment-->');
+				var htmlEnd = html.indexOf('<!--EndFragment-->');
+
+				var htmlContent = html.substr(htmlStart+20, htmlEnd - htmlStart - 20);
+			    var regs = [/<o:p>([\w\W]*?)<\/o:p>/g, /<v:line([\w\W]*?)>/g, /<v:shape>([\w\W]*?)<\/v:shape>/g];
+			    for ( var i = 0; i< regs.length ; i++){
+			        htmlContent = htmlContent.replace(regs[i], '');
+			    }
+				
+				e.selected.node.innerHTML = e.selected.node.innerHTML + htmlContent;
+				content = e.selected.node.innerHTML;
+				content = content.replace(/\n/g,'').replace(/<!--[\s\S]*?-->/g,'');
+				
+				function adjustStyle(element){
+					var searchEles = element.childNodes;
+					if (searchEles === undefined) return;
+					for (var i = 0 ; i < searchEles.length ; i++){
+						var style = searchEles[i].style;
+						if (style === undefined) continue;
+						var text = style.cssText;
+						text = text.replace(/mso-([\w\W]*?);/g, '');
+						text = text.replace(/mso-([\w\W]*?)/g, '');
+						searchEles[i].style.cssText = text;
+						// searchEles[i].className = '';
+						if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
+						else {
+							adjustStyle(searchEles[i]);
+							if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
+						}
+					}					
+				}
+
+				e.selected.node.innerHTML = content;				
+				adjustStyle(e.selected.node);
+				e.selected.node.innerHTML = e.selected.node.innerHTML.replace(/style=""/g,'').replace(/&quot;/g,"'").replace(/class=""/g,'');
+
+				// console.log(content);
+				e.$broadcast("builder.html.changed");
+				e.$broadcast("builder.css.changed");							
+			});
 			this.booted || ($(e.frameDoc.documentElement).keydown(function (i) {
-				38 === i.which ? (i.preventDefault(), t.moveSelected("up")) : 40 === i.which ? (i.preventDefault(), t.moveSelected("down")) : 46 === i.which ? (i.preventDefault(), t["delete"](e.selected.node)) : 67 === i.which && i.ctrlKey ? (i.preventDefault(), t.copy(e.selected.node)) : 86 === i.which && i.ctrlKey ? (i.preventDefault(), t.paste(e.selected.node)) : 88 === i.which && i.ctrlKey ? (i.preventDefault(), t.cut(e.selected.node)) : 89 === i.which && i.ctrlKey ? n.redo() : 90 === i.which && i.ctrlKey && n.undo()
+				38 === i.which ? (i.preventDefault(), t.moveSelected("up")) : 40 === i.which ? (i.preventDefault(), 
+					t.moveSelected("down")) : 46 === i.which ? (i.preventDefault(), t["delete"](e.selected.node)) : 67 === i.which && i.ctrlKey ? (i.preventDefault(), t.copy(e.selected.node)) : 86 === i.which && i.ctrlKey ? (/*i.preventDefault(),*/ t.paste(e.selected.node)) : 88 === i.which && i.ctrlKey ? (i.preventDefault(), t.cut(e.selected.node)) : 89 === i.which && i.ctrlKey ? n.redo() : 90 === i.which && i.ctrlKey && n.undo()
 			}), this.booted = !0)
 		}
 	};
 	return i
-}]), window.Translator = {
+}]), 
+window.Translator = {
 	translations: {},
 	get: function (e) {
 		return this.translations[e] ? this.translations[e] : e
 	}
-}, angular.module("builder").factory("preview", ["$rootScope", "dom", "project", function (e, t, n) {
+}, 
+angular.module("builder").factory("preview", ["$rootScope", "dom", "project", function (e, t, n) {
 	var i = {
 		iframe: e.previewFrame,
 		show: function () {
@@ -30550,3 +30602,4 @@ angular.module("builder.editors", []).controller("CodeEditorController", ["$scop
 		"background" == $("#images-modal").data("type") ? e.setAsBackground() : e.setAsSource(), e.modal.modal("hide")
 	}, e.activeTab = "my-images"
 }]);
+
