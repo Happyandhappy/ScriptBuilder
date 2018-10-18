@@ -30107,6 +30107,27 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 			    styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
 			    styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
 			    styleContent = styleContent.replace(/\/[*].*[*]\//g,'');
+			    
+			    var csseles = styleContent.split('}');
+			    for (var i = 0 ; i< csseles.length ; i++){
+			    	csseles[i] = csseles[i].replace(/\s/g, '').replace(/;/g, ';\n\t').replace(/{/g,'{\n\t');
+			    }
+
+			    var uniqueCsses = [];
+				$.each(csseles, function(i, el){
+				    if($.inArray(el, uniqueCsses) === -1) uniqueCsses.push(el);
+				});
+
+				styleContent = "";
+				for ( var i = 0 ; i < uniqueCsses.length ; i++){					
+					if ( uniqueCsses[i] != ""){
+						if (uniqueCsses[i].includes("@") && (uniqueCsses[i].includes("@import") || uniqueCsses[i].includes('@charset') || uniqueCsses[i].includes('@font-face') || uniqueCsses[i].includes('@media')))
+							styleContent += uniqueCsses[i] + "}\n\n";
+						else if (!uniqueCsses[i].includes("@"))
+							styleContent += uniqueCsses[i] + "}\n\n";
+					}
+				}
+			    
 			    e.customCss[0].innerHTML = styleContent;
 
 				var htmlStart = html.indexOf('<!--StartFragment-->');
@@ -30118,7 +30139,13 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 			        htmlContent = htmlContent.replace(regs[i], '');
 			    }
 				
-				e.selected.node.innerHTML = e.selected.node.innerHTML + htmlContent;
+				if (e.selected.node.nodeName === "BODY" || e.selected.node.nodeName === "HTML")
+					e.selected.node.innerHTML = e.selected.node.innerHTML + "<div>" + htmlContent + "</div>";
+				else{					
+					var div = document.createElement('div');
+  					div.innerHTML = htmlContent.trim();
+  					e.selected.node.parentNode.replaceChild(div, e.selected.node);			
+				}
 				content = e.selected.node.innerHTML;
 				content = content.replace(/\n/g,'').replace(/<!--[\s\S]*?-->/g,'');
 				
