@@ -1,3 +1,5 @@
+var copiedElement = false;
+var orihtmlContent = "";
 function trim(e) {
 	return e.replace(/^\s+|\s+$/g, "")
 }
@@ -28961,6 +28963,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			}
 		},
 		loadHtml: function (t) {
+			orihtmlContent = t;
 			if (t) {
 				var n = t.match(/(<body[^>]*>)((.|[\r\n])+?)<\/body>/),
 					i = t.match(/<link.+?class="include.*?".+?">/g);
@@ -29013,10 +29016,11 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		},
 		copy: function (e) {
 			e && "BODY" != e.nodeName && (this.copiedNode = $(e).clone())
+			copiedElement = true;
 		},
 		paste: function (n) {
 			// var html = e.originalEvent.clipboardData;						
-			if (n && this.copiedNode) {
+			if (n && this.copiedNode) {				
 				"BODY" == n.nodeName ? $(n).append(this.copiedNode) : $(n).after(this.copiedNode);
 				var i = {
 					node: this.copiedNode
@@ -29025,7 +29029,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 				i.parentContents = i.parent.contents(), 
 				i.undoIndex = i.parentContents.index(i.node.get(0)), 
 				t.add("insertNode", i), 
-				this.copiedNode = null, 
+				this.copiedNode = null,				
 				e.$broadcast("builder.html.changed")
 			}
 		},
@@ -29281,7 +29285,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			}, 1e3)
 		},
 		initHtmlEditor: function () {
-			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), this.cache.htmlEditor.getSession().setMode("ace/mode/html"), this.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), e.$on("builder.html.changed", function () {
+			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), this.cache.htmlEditor.getSession().setMode("ace/mode/html"), this.cache.htmlEditor.setValue(orihtmlContent==''? style_html(n.getHtml()):orihtmlContent, -1), e.$on("builder.html.changed", function () {
 				o.ignoreHtmlEditorChange = !1, o.cache.htmlEditor.setValue(style_html(n.getHtml()), -1)
 			}), this.cache.htmlEditor.on("focus", function (e) {
 				r.hideEditor()
@@ -29939,7 +29943,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			e.savingChanges = !0, t || (t = "all");
 			var o = l.getPage(l.activePage.name);
 			("all" == t || t.indexOf("html") > -1) && (o.html = style_html(r.getHtml())), ("all" == t || t.indexOf("css") > -1) && (o.css = i.compile()), a.set("architect-project", this.active);
-			getScriptContent(o.html, o.css, o.js), n(function () {
+			getScriptContent(orihtmlContent, o.css, o.js), n(function () {
 				e.savingChanges = !1
 			}, 300);
 		},
@@ -30099,79 +30103,96 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 		init: function () {
 			$(e.frameDoc.documentElement).on('paste',function(eve){
 				eve.preventDefault();
+				if (copiedElement) {
+					copiedElement = false;				
+					return;
+				}				
 				var html = eve.originalEvent.clipboardData.getData("text/html");
+				var text = eve.originalEvent.clipboardData.getData("text/plain");
 				
-			    var styleStart = html.indexOf('<style>', html.indexOf('<style>') + 1);
-			    var styleEnd = html.indexOf('</style>', html.indexOf('</style>') + 1);
-			    var styleContent = e.customCss[0].innerHTML + '\n' + html.substr(styleStart, styleEnd - styleStart) + "</style>";			    
-			    styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
-			    styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
-			    styleContent = styleContent.replace(/\/[*].*[*]\//g,'');
-			    
-			    var csseles = styleContent.split('}');
-			    for (var i = 0 ; i< csseles.length ; i++){
-			    	csseles[i] = csseles[i].replace(/\s/g, '').replace(/;/g, ';\n\t').replace(/{/g,'{\n\t');
-			    }
+				if (html != null && html !='' && html != undefined){
 
-			    var uniqueCsses = [];
-				$.each(csseles, function(i, el){
-				    if($.inArray(el, uniqueCsses) === -1) uniqueCsses.push(el);
-				});
+				    var styleStart = html.indexOf('<style>', html.indexOf('<style>') + 1);
+				    var styleEnd = html.indexOf('</style>', html.indexOf('</style>') + 1);
+				    var styleContent = e.customCss[0].innerHTML + '\n' + html.substr(styleStart, styleEnd - styleStart) + "</style>";			    
+				    styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
+				    styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
+				    styleContent = styleContent.replace(/\/[*].*[*]\//g,'');
 
-				styleContent = "";
-				for ( var i = 0 ; i < uniqueCsses.length ; i++){					
-					if ( uniqueCsses[i] != ""){
-						if (uniqueCsses[i].includes("@") && (uniqueCsses[i].includes("@import") || uniqueCsses[i].includes('@charset') || uniqueCsses[i].includes('@font-face') || uniqueCsses[i].includes('@media')))
-							styleContent += uniqueCsses[i] + "}\n\n";
-						else if (!uniqueCsses[i].includes("@"))
-							styleContent += uniqueCsses[i] + "}\n\n";
+				    var csseles = styleContent.split('}');
+				    for (var i = 0 ; i< csseles.length ; i++){
+				    	csseles[i] = csseles[i].replace(/\s/g, '').replace(/;/g, ';\n\t').replace(/{/g,'{\n\t');
+				    }
+
+				    var uniqueCsses = [];
+					$.each(csseles, function(i, el){
+					    if($.inArray(el, uniqueCsses) === -1) uniqueCsses.push(el);
+					});
+
+					styleContent = "";
+					for ( var i = 0 ; i < uniqueCsses.length ; i++){					
+						if ( uniqueCsses[i] != ""){
+							if (uniqueCsses[i].includes("@") && (uniqueCsses[i].includes("@import") || uniqueCsses[i].includes('@charset') || uniqueCsses[i].includes('@font-face') || uniqueCsses[i].includes('@media')))
+								styleContent += uniqueCsses[i] + "}\n\n";
+							else if (!uniqueCsses[i].includes("@"))
+								styleContent += uniqueCsses[i] + "}\n\n";
+						}
+					}
+
+				    e.customCss[0].innerHTML = styleContent;
+
+					var htmlStart = html.indexOf('<!--StartFragment-->');
+					var htmlEnd = html.indexOf('<!--EndFragment-->');
+
+					var htmlContent = html.substr(htmlStart+20, htmlEnd - htmlStart - 20);
+				    var regs = [/<o:p>([\w\W]*?)<\/o:p>/g, /<v:line([\w\W]*?)>/g, /<v:shape>([\w\W]*?)<\/v:shape>/g];
+				    for ( var i = 0; i< regs.length ; i++){
+				        htmlContent = htmlContent.replace(regs[i], '');
+				    }
+					
+					if (e.selected.node.nodeName === "BODY" || e.selected.node.nodeName === "HTML")
+						e.selected.node.innerHTML = e.selected.node.innerHTML + "<div>" + htmlContent + "</div>";
+					else{					
+						var div = document.createElement('div');
+	  					div.innerHTML = htmlContent.trim();
+	  					e.selected.node.parentNode.replaceChild(div, e.selected.node);			
+					}
+
+					content = e.selected.node.innerHTML;
+					content = content.replace(/\n/g,'').replace(/<!--[\s\S]*?-->/g,'');
+					
+					function adjustStyle(element){
+						var searchEles = element.childNodes;
+						if (searchEles === undefined) return;
+						for (var i = 0 ; i < searchEles.length ; i++){
+							var style = searchEles[i].style;
+							if (style === undefined) continue;
+							var text = style.cssText;
+							text = text.replace(/mso-([\w\W]*?);/g, '');
+							text = text.replace(/mso-([\w\W]*?)/g, '');
+							searchEles[i].style.cssText = text;
+							// searchEles[i].className = '';
+							if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
+							else {
+								adjustStyle(searchEles[i]);
+								if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
+							}
+						}					
+					}
+
+					e.selected.node.innerHTML = content;				
+					adjustStyle(e.selected.node);
+					e.selected.node.innerHTML = e.selected.node.innerHTML.replace(/style=""/g,'').replace(/&quot;/g,"'").replace(/class=""/g,'');
+					
+				}else if(text != null && text !='' && text != undefined){
+					content = '<p>' + text + '</p>';
+					if (e.selected.node.nodeName === "BODY" || e.selected.node.nodeName === "HTML")
+						e.selected.node.innerHTML = e.selected.node.innerHTML + content;
+					else{											
+	  					e.selected.node.innerHTML = text;
+	  					// e.selected.node.parentNode.replaceChild(tag, e.selected.node);			
 					}
 				}
-			    
-			    e.customCss[0].innerHTML = styleContent;
-
-				var htmlStart = html.indexOf('<!--StartFragment-->');
-				var htmlEnd = html.indexOf('<!--EndFragment-->');
-
-				var htmlContent = html.substr(htmlStart+20, htmlEnd - htmlStart - 20);
-			    var regs = [/<o:p>([\w\W]*?)<\/o:p>/g, /<v:line([\w\W]*?)>/g, /<v:shape>([\w\W]*?)<\/v:shape>/g];
-			    for ( var i = 0; i< regs.length ; i++){
-			        htmlContent = htmlContent.replace(regs[i], '');
-			    }
-				
-				if (e.selected.node.nodeName === "BODY" || e.selected.node.nodeName === "HTML")
-					e.selected.node.innerHTML = e.selected.node.innerHTML + "<div>" + htmlContent + "</div>";
-				else{					
-					var div = document.createElement('div');
-  					div.innerHTML = htmlContent.trim();
-  					e.selected.node.parentNode.replaceChild(div, e.selected.node);			
-				}
-				content = e.selected.node.innerHTML;
-				content = content.replace(/\n/g,'').replace(/<!--[\s\S]*?-->/g,'');
-				
-				function adjustStyle(element){
-					var searchEles = element.childNodes;
-					if (searchEles === undefined) return;
-					for (var i = 0 ; i < searchEles.length ; i++){
-						var style = searchEles[i].style;
-						if (style === undefined) continue;
-						var text = style.cssText;
-						text = text.replace(/mso-([\w\W]*?);/g, '');
-						text = text.replace(/mso-([\w\W]*?)/g, '');
-						searchEles[i].style.cssText = text;
-						// searchEles[i].className = '';
-						if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
-						else {
-							adjustStyle(searchEles[i]);
-							if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
-						}
-					}					
-				}
-
-				e.selected.node.innerHTML = content;				
-				adjustStyle(e.selected.node);
-				e.selected.node.innerHTML = e.selected.node.innerHTML.replace(/style=""/g,'').replace(/&quot;/g,"'").replace(/class=""/g,'');
-
 				// console.log(content);
 				e.$broadcast("builder.html.changed");
 				e.$broadcast("builder.css.changed");							
