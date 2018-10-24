@@ -1,5 +1,6 @@
 var copiedElement = false;
 var orihtmlContent = "";
+/*widad*/
 function trim(e) {
 	return e.replace(/^\s+|\s+$/g, "")
 }
@@ -26956,12 +26957,15 @@ angular.module("builder.wysiwyg", []).factory("textStyles", function () {
 					}), r = l
 				}
 			};
+			
 			n.$on("builder.dom.loaded", function (t) {
 				n.frameBody.off("dblclick").on("dblclick", function (e) {
 					"BODY" !== e.target.nodeName && $(e.target).text().trim().length && a(e.pageX, e.pageY)
-				}), n.$on("builder.contextBox.editBtn.click", function (t) {
+				}), 
+				n.$on("builder.contextBox.editBtn.click", function (t) {
 					"BODY" !== e.selected.node.nodeName && $(e.selected.node).text().trim().length && a(t.pageX, t.pageY, n.selected.node)
-				}), $(n.frameDoc).on("scroll", function (e) {
+				}), 
+				$(n.frameDoc).on("scroll", function (e) {
 					i && r && !i.hasClass("hidden") && (i.addClass("hidden"), r.removeAttribute("contenteditable"), r.blur())
 				})
 			})
@@ -28963,7 +28967,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			}
 		},
 		loadHtml: function (t) {
-			orihtmlContent = t;
+			orihtmlContent = t;/*widad*/
 			if (t) {
 				var n = t.match(/(<body[^>]*>)((.|[\r\n])+?)<\/body>/),
 					i = t.match(/<link.+?class="include.*?".+?">/g);
@@ -29016,7 +29020,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		},
 		copy: function (e) {
 			e && "BODY" != e.nodeName && (this.copiedNode = $(e).clone())
-			copiedElement = true;
+			copiedElement = true;/*widad*/
 		},
 		paste: function (n) {
 			// var html = e.originalEvent.clipboardData;						
@@ -29243,8 +29247,9 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		}
 	}
 }]), angular.module("builder.editors", []).controller("CodeEditorController", ["$scope", "codeEditors", "dom", "project", function (e, t, n, i) {
-	e.editors = t, e.themes = ["chrome", "clouds", "crimson_editor", "tomorrow_night", "dawn", "dreamweaver", "eclipse", "github", "solarized_light", "textmate", "tomorrow", "xcode", "kuroir", "katzen_milch", "ambiance", "chaos", "clouds_midnight", "cobalt", "idle_fingers", "kr_theme", "merbivore", "merbivore_soft", "mono_industrial", "monokai", "pastel_on_dark", "solarized_light", "terminal", "tomorrow_night_blue", "tomorrow_night_bright", "tomorrow_night_80s", "twilight", "vibrant_ink"], e.$on("builder.page.changed", function () {
-		t.cache.htmlEditor && (t.ignoreHtmlEditorChange = !1, t.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), t.reloadCss(), t.cache.jsEditor.setValue(i.activePage.js, -1))
+	e.editors = t, e.themes = ["chrome", "clouds", "crimson_editor", "tomorrow_night", "dawn", "dreamweaver", "eclipse", "github", "solarized_light", "textmate", "tomorrow", "xcode", "kuroir", "katzen_milch", "ambiance", "chaos", "clouds_midnight", "cobalt", "idle_fingers", "kr_theme", "merbivore", "merbivore_soft", "mono_industrial", "monokai", "pastel_on_dark", "solarized_light", "terminal", "tomorrow_night_blue", "tomorrow_night_bright", "tomorrow_night_80s", "twilight", "vibrant_ink"], 
+	e.$on("builder.page.changed", function () {
+		t.cache.htmlEditor && (t.ignoreHtmlEditorChange = !1,/*widad*/ t.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), t.reloadCss(), t.cache.jsEditor.setValue(i.activePage.js, -1))		
 	}), e.$on("element.reselected", function (e, n) {
 		t.cache.htmlEditor.find(n.outerHTML)
 	}), e.$on("builder.css.changed", function (e) {
@@ -29282,11 +29287,15 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			this.cache.jsEditor = ace.edit("jscript-code-editor"), 
 			setTimeout(function () {
 				o.initHtmlEditor(), o.initCssEditor(), o.initJsEditor()
-			}, 1e3)
+			}, 1e3);
+			ignoreHtmlEditorChange = !1;//widad
 		},
 		initHtmlEditor: function () {
-			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), this.cache.htmlEditor.getSession().setMode("ace/mode/html"), this.cache.htmlEditor.setValue(orihtmlContent==''? style_html(n.getHtml()):orihtmlContent, -1), e.$on("builder.html.changed", function () {
-				o.ignoreHtmlEditorChange = !1, o.cache.htmlEditor.setValue(style_html(n.getHtml()), -1)
+			this.cache.htmlEditor.setTheme("ace/theme/" + this.theme), 
+			this.cache.htmlEditor.getSession().setMode("ace/mode/html"), 
+			this.cache.htmlEditor.setValue(orihtmlContent==''? style_html(n.getHtml()):orihtmlContent, -1),/*widad*/  
+			e.$on("builder.html.changed", function () {
+				o.ignoreHtmlEditorChange = !0, o.cache.htmlEditor.setValue(style_html(n.getHtml()), -1)
 			}), this.cache.htmlEditor.on("focus", function (e) {
 				r.hideEditor()
 			}), o.cache.htmlEditor.getSession().on("change", blDebounce(function () {
@@ -29943,7 +29952,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			e.savingChanges = !0, t || (t = "all");
 			var o = l.getPage(l.activePage.name);
 			("all" == t || t.indexOf("html") > -1) && (o.html = style_html(r.getHtml())), ("all" == t || t.indexOf("css") > -1) && (o.css = i.compile()), a.set("architect-project", this.active);
-			getScriptContent(orihtmlContent, o.css, o.js), n(function () {
+			getScriptContent(orihtmlContent, o.css, o.js), n(function () {/*widad*/
 				e.savingChanges = !1
 			}, 300);
 		},
@@ -30101,28 +30110,41 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 	var i = {
 		booted: !1,
 		init: function () {
+			/*widad*/
 			$(e.frameDoc.documentElement).on('paste',function(eve){
 				eve.preventDefault();
 				if (copiedElement) {
 					copiedElement = false;				
 					return;
-				}				
+				}
 				var html = eve.originalEvent.clipboardData.getData("text/html");
 				var text = eve.originalEvent.clipboardData.getData("text/plain");
 				
 				if (html != null && html !='' && html != undefined){
 
 				    var styleStart = html.indexOf('<style>', html.indexOf('<style>') + 1);
-				    var styleEnd = html.indexOf('</style>', html.indexOf('</style>') + 1);
-				    var styleContent = e.customCss[0].innerHTML + '\n' + html.substr(styleStart, styleEnd - styleStart) + "</style>";			    
-				    styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
-				    styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
-				    styleContent = styleContent.replace(/\/[*].*[*]\//g,'');
+					var styleEnd = html.indexOf('</style>', html.indexOf('</style>') + 1);
+					var styleContent = "";
+										
+					styleContent = html.substr(styleStart, styleEnd - styleStart) + "</style>";
+					styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
+					styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
+					styleContent = styleContent.replace(/\/[*].*[*]\//g,'').replace(/\t/g,"    ");
+					var originCss = e.customCss[0].innerHTML;
+					console.log(originCss.indexOf(styleContent));
+					if (e.customCss[0].innerHTML.indexOf(styleContent) === -1){
+						e.customCss[0].innerHTML = e.customCss[0].innerHTML + styleContent;
+						console.log(e.customCss[0].innerHTML);
+					}
+						
 
-				    var csseles = styleContent.split('}');
+
+					
+
+				    /*var csseles = styleContent.split('}');
 				    for (var i = 0 ; i< csseles.length ; i++){
-				    	csseles[i] = csseles[i].replace(/\s/g, '').replace(/;/g, ';\n\t').replace(/{/g,'{\n\t');
-				    }
+				    	csseles[i] = csseles[i] + "}"; //csseles[i].replace(/\s/g, '').replace(/;/g, ';\n\t').replace(/{/g,'{\n\t');
+					}
 
 				    var uniqueCsses = [];
 					$.each(csseles, function(i, el){
@@ -30133,13 +30155,12 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 					for ( var i = 0 ; i < uniqueCsses.length ; i++){					
 						if ( uniqueCsses[i] != ""){
 							if (uniqueCsses[i].includes("@") && (uniqueCsses[i].includes("@import") || uniqueCsses[i].includes('@charset') || uniqueCsses[i].includes('@font-face') || uniqueCsses[i].includes('@media')))
-								styleContent += uniqueCsses[i] + "}\n\n";
+								styleContent += uniqueCsses[i] + "\n\n";
 							else if (!uniqueCsses[i].includes("@"))
-								styleContent += uniqueCsses[i] + "}\n\n";
+								styleContent += uniqueCsses[i] + "\n\n";
 						}
-					}
-
-				    e.customCss[0].innerHTML = styleContent;
+					}*/
+				    
 
 					var htmlStart = html.indexOf('<!--StartFragment-->');
 					var htmlEnd = html.indexOf('<!--EndFragment-->');
@@ -30159,7 +30180,7 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 					}
 
 					content = e.selected.node.innerHTML;
-					content = content.replace(/\n/g,'').replace(/<!--[\s\S]*?-->/g,'');
+					content = content.replace(/\n/g,'').replace(/<!--[\s\S]*?-->/g,'');					
 					
 					function adjustStyle(element){
 						var searchEles = element.childNodes;
@@ -30172,11 +30193,11 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 							text = text.replace(/mso-([\w\W]*?)/g, '');
 							searchEles[i].style.cssText = text;
 							// searchEles[i].className = '';
-							if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
+							/*if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
 							else {
 								adjustStyle(searchEles[i]);
 								if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
-							}
+							}*/
 						}					
 					}
 
