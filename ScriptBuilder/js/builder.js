@@ -3743,8 +3743,8 @@ else if ("undefined" != typeof exports) {
 			_mouseDestroy: function () {
 				this.element.unbind("." + this.widgetName), this._mouseMoveDelegate && this.document.unbind("mousemove." + this.widgetName, this._mouseMoveDelegate).unbind("mouseup." + this.widgetName, this._mouseUpDelegate)
 			},
-			_mouseDown: function (t) {
-				if (!u) {
+			_mouseDown: function (t) {				
+				if (!u) {					
 					this._mouseStarted && this._mouseUp(t), this._mouseDownEvent = t;
 					var n = this,
 						i = 1 === t.which,
@@ -3758,13 +3758,15 @@ else if ("undefined" != typeof exports) {
 					}, this.document.bind("mousemove." + this.widgetName, this._mouseMoveDelegate).bind("mouseup." + this.widgetName, this._mouseUpDelegate), t.preventDefault(), u = !0, !0)) : !0
 				}
 			},
-			_mouseMove: function (t) {
-				return e.ui.ie && (!document.documentMode || document.documentMode < 9) && !t.button ? this._mouseUp(t) : t.which ? this._mouseStarted ? (this._mouseDrag(t), t.preventDefault()) : (this._mouseDistanceMet(t) && this._mouseDelayMet(t) && (this._mouseStarted = this._mouseStart(this._mouseDownEvent, t) !== !1, this._mouseStarted ? this._mouseDrag(t) : this._mouseUp(t)), !this._mouseStarted) : this._mouseUp(t)
+			_mouseMove: function (t) {				
+				return e.ui.ie && 
+						(!document.documentMode || document.documentMode < 9) && 
+						!t.button ? this._mouseUp(t) : t.which ? this._mouseStarted ? (this._mouseDrag(t), t.preventDefault()) : (this._mouseDistanceMet(t) && this._mouseDelayMet(t) && (this._mouseStarted = this._mouseStart(this._mouseDownEvent, t) !== !1, this._mouseStarted ? this._mouseDrag(t) : this._mouseUp(t)), !this._mouseStarted) : this._mouseUp(t)
 			},
 			_mouseUp: function (t) {
 				return this.document.unbind("mousemove." + this.widgetName, this._mouseMoveDelegate).unbind("mouseup." + this.widgetName, this._mouseUpDelegate), this._mouseStarted && (this._mouseStarted = !1, t.target === this._mouseDownEvent.target && e.data(t.target, this.widgetName + ".preventClickEvent", !0), this._mouseStop(t)), u = !1, !1
 			},
-			_mouseDistanceMet: function (e) {
+			_mouseDistanceMet: function (e) {				
 				return Math.max(Math.abs(this._mouseDownEvent.pageX - e.pageX), Math.abs(this._mouseDownEvent.pageY - e.pageY)) >= this.options.distance
 			},
 			_mouseDelayMet: function () {
@@ -5567,7 +5569,7 @@ else if ("undefined" != typeof exports) {
 				scope: "default",
 				scroll: !0,
 				scrollSensitivity: 20,
-				scrollSpeed: 20,
+				scrollSpeed: 2000,
 				snap: !1,
 				snapMode: "both",
 				snapTolerance: 20,
@@ -5730,7 +5732,7 @@ else if ("undefined" != typeof exports) {
 			_clear: function () {
 				this.helper.removeClass("ui-draggable-dragging"), this.helper[0] === this.element[0] || this.cancelHelperRemoval || this.helper.remove(), this.helper = null, this.cancelHelperRemoval = !1, this.destroyOnClear && this.destroy()
 			},
-			_trigger: function (t, n, i) {
+			_trigger: function (t, n, i) {				
 				return i = i || this._uiHash(), e.ui.plugin.call(this, t, [n, i, this], !0), "drag" === t && (this.positionAbs = this._convertPositionTo("absolute")), e.Widget.prototype._trigger.call(this, t, n, i)
 			},
 			plugins: {},
@@ -5806,8 +5808,10 @@ else if ("undefined" != typeof exports) {
 			drag: function (t, n, i) {
 				var r = i.options,
 					o = !1,
-					s = i.document[0];
-				i.scrollParent[0] !== s && "HTML" !== i.scrollParent[0].tagName ? (r.axis && "x" === r.axis || (i.overflowOffset.top + i.scrollParent[0].offsetHeight - t.pageY < r.scrollSensitivity ? i.scrollParent[0].scrollTop = o = i.scrollParent[0].scrollTop + r.scrollSpeed : t.pageY - i.overflowOffset.top < r.scrollSensitivity && (i.scrollParent[0].scrollTop = o = i.scrollParent[0].scrollTop - r.scrollSpeed)), r.axis && "y" === r.axis || (i.overflowOffset.left + i.scrollParent[0].offsetWidth - t.pageX < r.scrollSensitivity ? i.scrollParent[0].scrollLeft = o = i.scrollParent[0].scrollLeft + r.scrollSpeed : t.pageX - i.overflowOffset.left < r.scrollSensitivity && (i.scrollParent[0].scrollLeft = o = i.scrollParent[0].scrollLeft - r.scrollSpeed))) : (r.axis && "x" === r.axis || (t.pageY - e(s).scrollTop() < r.scrollSensitivity ? o = e(s).scrollTop(e(s).scrollTop() - r.scrollSpeed) : e(window).height() - (t.pageY - e(s).scrollTop()) < r.scrollSensitivity && (o = e(s).scrollTop(e(s).scrollTop() + r.scrollSpeed))), r.axis && "y" === r.axis || (t.pageX - e(s).scrollLeft() < r.scrollSensitivity ? o = e(s).scrollLeft(e(s).scrollLeft() - r.scrollSpeed) : e(window).width() - (t.pageX - e(s).scrollLeft()) < r.scrollSensitivity && (o = e(s).scrollLeft(e(s).scrollLeft() + r.scrollSpeed)))), o !== !1 && e.ui.ddmanager && !r.dropBehaviour && e.ui.ddmanager.prepareOffsets(i, t)
+					s = i.document[0];				
+				i.scrollParent[0] !== s && "HTML" !== i.scrollParent[0].tagName ? 
+					(r.axis && "x" === r.axis || (i.overflowOffset.top + i.scrollParent[0].offsetHeight - t.pageY < r.scrollSensitivity ? i.scrollParent[0].scrollTop = o = i.scrollParent[0].scrollTop + r.scrollSpeed : t.pageY - i.overflowOffset.top < r.scrollSensitivity && (i.scrollParent[0].scrollTop = o = i.scrollParent[0].scrollTop - r.scrollSpeed)), r.axis && "y" === r.axis || (i.overflowOffset.left + i.scrollParent[0].offsetWidth - t.pageX < r.scrollSensitivity ? i.scrollParent[0].scrollLeft = o = i.scrollParent[0].scrollLeft + r.scrollSpeed : t.pageX - i.overflowOffset.left < r.scrollSensitivity && (i.scrollParent[0].scrollLeft = o = i.scrollParent[0].scrollLeft - r.scrollSpeed))) : 
+					(r.axis && "x" === r.axis || (t.pageY - e(s).scrollTop() < r.scrollSensitivity ? o = e(s).scrollTop(e(s).scrollTop() - r.scrollSpeed) : e(window).height() - (t.pageY - e(s).scrollTop()) < r.scrollSensitivity && (o = e(s).scrollTop(e(s).scrollTop() + r.scrollSpeed))), r.axis && "y" === r.axis || (t.pageX - e(s).scrollLeft() < r.scrollSensitivity ? o = e(s).scrollLeft(e(s).scrollLeft() - r.scrollSpeed) : e(window).width() - (t.pageX - e(s).scrollLeft()) < r.scrollSensitivity && (o = e(s).scrollLeft(e(s).scrollLeft() + r.scrollSpeed)))), o !== !1 && e.ui.ddmanager && !r.dropBehaviour && e.ui.ddmanager.prepareOffsets(i, t)
 			}
 		}), e.ui.plugin.add("draggable", "snap", {
 			start: function (t, n, i) {
@@ -6355,7 +6359,7 @@ else if ("undefined" != typeof exports) {
 			droppables: {
 				"default": []
 			},
-			prepareOffsets: function (t, n) {
+			prepareOffsets: function (t, n) {				
 				var i, r, o = e.ui.ddmanager.droppables[t.options.scope] || [],
 					s = n ? n.type : null,
 					a = (t.currentItem || t.element).find(":data(ui-droppable)").addBack();
@@ -6384,8 +6388,9 @@ else if ("undefined" != typeof exports) {
 				})
 			},
 			drag: function (t, n) {
-				t.options.refreshPositions && e.ui.ddmanager.prepareOffsets(t, n), e.each(e.ui.ddmanager.droppables[t.options.scope] || [], function () {
-					if (!this.options.disabled && !this.greedyChild && this.visible) {
+				t.options.refreshPositions && e.ui.ddmanager.prepareOffsets(t, n), 
+				e.each(e.ui.ddmanager.droppables[t.options.scope] || [], function () {					
+					if (!this.options.disabled && !this.greedyChild && this.visible) {						
 						var i, r, o, s = e.ui.intersect(t, this, this.options.tolerance),
 							a = !s && this.isover ? "isout" : s && !this.isover ? "isover" : null;
 						a && (this.options.greedy && (r = this.options.scope, o = this.element.parents(":data(ui-droppable)").filter(function () {
@@ -6394,7 +6399,7 @@ else if ("undefined" != typeof exports) {
 					}
 				})
 			},
-			dragStop: function (t, n) {
+			dragStop: function (t, n) {				
 				t.element.parentsUntil("body").unbind("scroll.droppable"), t.options.refreshPositions || e.ui.ddmanager.prepareOffsets(t, n)
 			}
 		};
@@ -8038,7 +8043,7 @@ else if ("undefined" != typeof exports) {
 				placeholder: !1,
 				revert: !1,
 				scroll: !0,
-				scrollSensitivity: 20,
+				scrollSensitivity: 2000,
 				scrollSpeed: 20,
 				scope: "default",
 				tolerance: "intersect",
@@ -8110,7 +8115,7 @@ else if ("undefined" != typeof exports) {
 			},
 			_mouseDrag: function (t) {
 				var n, i, r, o, s = this.options,
-					a = !1;
+					a = !1;				
 				for (this.position = this._generatePosition(t), this.positionAbs = this._convertPositionTo("absolute"), this.lastPositionAbs || (this.lastPositionAbs = this.positionAbs), this.options.scroll && (this.scrollParent[0] !== document && "HTML" !== this.scrollParent[0].tagName ? (this.overflowOffset.top + this.scrollParent[0].offsetHeight - t.pageY < s.scrollSensitivity ? this.scrollParent[0].scrollTop = a = this.scrollParent[0].scrollTop + s.scrollSpeed : t.pageY - this.overflowOffset.top < s.scrollSensitivity && (this.scrollParent[0].scrollTop = a = this.scrollParent[0].scrollTop - s.scrollSpeed), this.overflowOffset.left + this.scrollParent[0].offsetWidth - t.pageX < s.scrollSensitivity ? this.scrollParent[0].scrollLeft = a = this.scrollParent[0].scrollLeft + s.scrollSpeed : t.pageX - this.overflowOffset.left < s.scrollSensitivity && (this.scrollParent[0].scrollLeft = a = this.scrollParent[0].scrollLeft - s.scrollSpeed)) : (t.pageY - e(document).scrollTop() < s.scrollSensitivity ? a = e(document).scrollTop(e(document).scrollTop() - s.scrollSpeed) : e(window).height() - (t.pageY - e(document).scrollTop()) < s.scrollSensitivity && (a = e(document).scrollTop(e(document).scrollTop() + s.scrollSpeed)), t.pageX - e(document).scrollLeft() < s.scrollSensitivity ? a = e(document).scrollLeft(e(document).scrollLeft() - s.scrollSpeed) : e(window).width() - (t.pageX - e(document).scrollLeft()) < s.scrollSensitivity && (a = e(document).scrollLeft(e(document).scrollLeft() + s.scrollSpeed))), a !== !1 && e.ui.ddmanager && !s.dropBehaviour && e.ui.ddmanager.prepareOffsets(this, t)), this.positionAbs = this._convertPositionTo("absolute"), this.options.axis && "y" === this.options.axis || (this.helper[0].style.left = this.position.left + "px"), this.options.axis && "x" === this.options.axis || (this.helper[0].style.top = this.position.top + "px"), n = this.items.length - 1; n >= 0; n--)
 					if (i = this.items[n], r = i.item[0], o = this._intersectsWithPointer(i), o && i.instance === this.currentContainer && r !== this.currentItem[0] && this.placeholder[1 === o ? "next" : "prev"]()[0] !== r && !e.contains(this.placeholder[0], r) && ("semi-dynamic" === this.options.type ? !e.contains(this.element[0], r) : !0)) {
 						if (this.direction = 1 === o ? "down" : "up", "pointer" !== this.options.tolerance && !this._intersectsWithSides(i)) break;
@@ -17366,7 +17371,7 @@ function (e) {
 						type: e.type.slice(1)
 					}));
 					break;
-				case "_mousemove":
+				case "_mousemove":					
 					L.bubbleEvents === !0 && r && ue(_({}, e, {
 						type: e.type.slice(1)
 					}))
@@ -30130,16 +30135,11 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 					styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
 					styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
 					styleContent = styleContent.replace(/\/[*].*[*]\//g,'').replace(/\t/g,"    ");
-					var originCss = e.customCss[0].innerHTML;
-					console.log(originCss.indexOf(styleContent));
+					var originCss = e.customCss[0].innerHTML;					
 					if (e.customCss[0].innerHTML.indexOf(styleContent) === -1){
 						e.customCss[0].innerHTML = e.customCss[0].innerHTML + styleContent;
-						console.log(e.customCss[0].innerHTML);
 					}
 						
-
-
-					
 
 				    /*var csseles = styleContent.split('}');
 				    for (var i = 0 ; i< csseles.length ; i++){
@@ -30172,11 +30172,11 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 				    }
 					
 					if (e.selected.node.nodeName === "BODY" || e.selected.node.nodeName === "HTML")
-						e.selected.node.innerHTML = e.selected.node.innerHTML + "<div>" + htmlContent + "</div>";
+						e.selected.node.innerHTML = e.selected.node.innerHTML  + htmlContent ;
 					else{					
-						var div = document.createElement('div');
+						var div = document.createElement(e.selected.node.tagName);
 	  					div.innerHTML = htmlContent.trim();
-	  					e.selected.node.parentNode.replaceChild(div, e.selected.node);			
+	  					e.selected.node.parentNode.replaceChild(div.childNodes[0], e.selected.node);			
 					}
 
 					content = e.selected.node.innerHTML;
