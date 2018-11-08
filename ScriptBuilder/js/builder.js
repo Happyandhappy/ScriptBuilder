@@ -3744,7 +3744,7 @@ else if ("undefined" != typeof exports) {
 				this.element.unbind("." + this.widgetName), this._mouseMoveDelegate && this.document.unbind("mousemove." + this.widgetName, this._mouseMoveDelegate).unbind("mouseup." + this.widgetName, this._mouseUpDelegate)
 			},
 			_mouseDown: function (t) {				
-				if (!u) {					
+				if (!u) {
 					this._mouseStarted && this._mouseUp(t), this._mouseDownEvent = t;
 					var n = this,
 						i = 1 === t.which,
@@ -5604,7 +5604,8 @@ else if ("undefined" != typeof exports) {
 					}).css(e(this).offset()).appendTo("body")
 				}), !0) : !1)
 			},
-			_mouseStart: function (t) {
+			_mouseStart: function (t) {				
+				$("#frame-overlay").removeClass("hidden");//widad				
 				var n = this.options;
 				return this.helper = this._createHelper(t), this.helper.addClass("ui-draggable-dragging"), this._cacheHelperProportions(), e.ui.ddmanager && (e.ui.ddmanager.current = this), this._cacheMargins(), this.cssPosition = this.helper.css("position"), this.scrollParent = this.helper.scrollParent(), this.offsetParent = this.helper.offsetParent(), this.offsetParentCssPosition = this.offsetParent.css("position"), this.offset = this.positionAbs = this.element.offset(), this.offset = {
 					top: this.offset.top - this.margins.top,
@@ -5633,7 +5634,8 @@ else if ("undefined" != typeof exports) {
 					n._trigger("stop", t) !== !1 && n._clear()
 				}) : this._trigger("stop", t) !== !1 && this._clear(), !1
 			},
-			_mouseUp: function (t) {
+			_mouseUp: function (t) {				
+				$("#frame-overlay").addClass("hidden");//widad				
 				return e("div.ui-draggable-iframeFix").each(function () {
 					this.parentNode.removeChild(this)
 				}), e.ui.ddmanager && e.ui.ddmanager.dragStop(this, t), this.element.focus(), e.ui.mouse.prototype._mouseUp.call(this, t)
@@ -26507,10 +26509,10 @@ dnd.factory("draggable", ["$rootScope", "undoManager", "iframeScroller", functio
 				var i = e.selected.node.parentNode;
 				n.scroll(t.pageY), i && (this.command.params.parent = i, this.command.params.parentContents = this.command.params.parent.childNodes, this.command.params.undoIndex = utils.getNodeIndex(this.command.params.parentContents, e.selected.node))
 			},
-			start: function () {
-				e.dragging = !0, $("#frame-overlay").removeClass("hidden"), e.frameBody.addClass("dragging"), this.command = t.add("insertNode", {
-					node: e.selected.node
-				})
+			start: function () {				
+					e.dragging = !0, $("#frame-overlay").removeClass("hidden"), e.frameBody.addClass("dragging"), this.command = t.add("insertNode", {
+						node: e.selected.node
+					})
 			},
 			stop: function () {
 				if (e.dragging = !1, n.stopScrolling(), e.$apply(function () {
@@ -26522,20 +26524,20 @@ dnd.factory("draggable", ["$rootScope", "undoManager", "iframeScroller", functio
 			}
 		})
 	}, i
-}]), angular.module("dragAndDrop").factory("iframeScroller", ["$rootScope", function (e) {
+}]), angular.module("dragAndDrop").factory("iframeScroller", ["$rootScope", function (e) {	
 	var t = {};
-	return t.scroll = function (n) {
+	return t.scroll = function (n) {		
 		var i = e.frameBody.scrollTop(),
 			r = n - e.frameOffset.top + i;
 		t.sh || (t.sh = $("#frame-wrapper").height()), r - i - 10 <= e.frameOffset.top ? t.scrollFrameUp() : r > i + t.sh - 80 ? t.scrollFrameDown() : t.stopScrolling()
 	}, t.scrollFrameDown = function () {
 		return clearInterval(t.scrollDownTimeout), t.scrollDownTimeout = setInterval(function () {
 			return t.setScrollTop(e.frameBody.scrollTop() + 40)
-		}, 40)
+		}, 4)
 	}, t.scrollFrameUp = function () {
 		return clearInterval(t.scrollUpTimeout), t.scrollUpTimeout = setInterval(function () {
 			return t.setScrollTop(e.frameBody.scrollTop() - 40)
-		}, 40)
+		}, 4)
 	}, t.stopScrolling = function () {
 		return clearInterval(t.scrollDownTimeout), clearInterval(t.scrollUpTimeout)
 	}, t.setScrollTop = function (t) {
@@ -26545,7 +26547,7 @@ dnd.factory("draggable", ["$rootScope", "undoManager", "iframeScroller", functio
 var dnd = angular.module("dragAndDrop");
 dnd.directive("blResizable", ["$rootScope", "elements", "undoManager", function (e, t, n) {
 	return $.widget("ui.blResizable", $.ui.mouse, {
-		_mouseStart: function (t) {
+		_mouseStart: function (t) {			
 			return this.isImage = "IMG" == e.selected.node.nodeName, this.originalSize = {
 				height: e.selected.node.offsetHeight,
 				width: e.selected.node.offsetWidth,
@@ -28828,9 +28830,9 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		replace: !0,
 		template: '<div id="hover-box"><div id="hover-box-actions"><span class="element-tag">#</span></div></div>',
 		link: function (t, n) {
-			t.$on("builder.dom.loaded", function (n) {
-				t.frameBody.off("mousemove").on("mousemove", function (n) {
-					if (!t.dragging) {
+			t.$on("builder.dom.loaded", function (n) {				
+				t.frameBody.off("mousemove").on("mousemove", function (n) {					
+					if (!t.dragging) {						
 						t.hover.previous = t.hover.node;
 						var i = t.elementFromPoint(n.pageX, n.pageY - t.frameBody.scrollTop());
 						if (t.selected.node && t.selected.node == i) return t.hoverBox.hide(); - 1 == i.className.indexOf("ui-resizable-handle") && (t.hover.node = i, t.hover.element = e.match(t.hover.node, "hover", !0), (!t.dragging || t.isWebkit) && t.repositionBox("hover", t.hover.node, t.hover.element))
