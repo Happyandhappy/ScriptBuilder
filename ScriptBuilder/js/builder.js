@@ -30221,8 +30221,15 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 				e.$broadcast("builder.css.changed");							
 			});
 			this.booted || ($(e.frameDoc.documentElement).keydown(function (i) {
-				38 === i.which ? (i.preventDefault(), t.moveSelected("up")) : 40 === i.which ? (i.preventDefault(), 
-					t.moveSelected("down")) : 46 === i.which ? (i.preventDefault(), t["delete"](e.selected.node)) : 67 === i.which && i.ctrlKey ? (i.preventDefault(), t.copy(e.selected.node)) : 86 === i.which && i.ctrlKey ? (/*i.preventDefault(),*/ t.paste(e.selected.node)) : 88 === i.which && i.ctrlKey ? (i.preventDefault(), t.cut(e.selected.node)) : 89 === i.which && i.ctrlKey ? n.redo() : 90 === i.which && i.ctrlKey && n.undo()
+				console.log(i.which);
+				38 === i.which ? (i.preventDefault(), t.moveSelected("up")) : 
+																			40 === i.which ? (i.preventDefault(), t.moveSelected("down")) : 
+																							 46 === i.which ? (i.preventDefault(), t["delete"](e.selected.node)) 
+									   																		: 67 === i.which && i.ctrlKey ? (i.preventDefault(), t.copy(e.selected.node)) 
+									   								 																	  : 86 === i.which && i.ctrlKey ? ( /*i.preventDefault(), widad*/ t.paste(e.selected.node)) 
+									   								 							   																		: 88 === i.which && i.ctrlKey ? (i.preventDefault(), t.cut(e.selected.node)) 
+									   								 							   								 																	  : 89 === i.which && i.ctrlKey ? n.redo() : 90 === i.which && i.ctrlKey && n.undo()
+				// if (i.which === 89 && i.ctrlKey )  n.redo()	
 			}), this.booted = !0)
 		}
 	};
