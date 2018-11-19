@@ -28811,10 +28811,16 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		link: function (e) {
 			e.$on("builder.dom.loaded", function () {
 				e.frameBody.off("click").on("click", function (t) {
-					function scrollEle(n){/*widad D-01043*/
-						if (n.scrollHeight > n.clientHeight) return n;
-						else return scrollEle(n.parentNode);
-					}
+		    		function scrollEle(n){/*widad D-01043*/
+		    			if (n.scrollHeight > n.offsetHeight ) {
+		    				old_scroll_top = $('#select-box').offset().top + n.scrollTop;
+		    				n.onscroll = function(e){
+		    					$('#select-box').offset({top: old_scroll_top - n.scrollTop});    					
+		    				}
+		    				if (n.nodeName != "BODY")scrollEle(n.parentNode);
+		    			}
+		    			else if (n.nodeName != "BODY") scrollEle(n.parentNode);
+		    		} 
 					if (t.preventDefault(), e.contextMenu.hide(), e.frameWindow.focus(), e.resizing || e.selected.node == t.target) return !0;
 					var n = t.target;
 					if (n.hasAttribute("contenteditable") || n.parentNode.hasAttribute("contenteditable")) return !0;
