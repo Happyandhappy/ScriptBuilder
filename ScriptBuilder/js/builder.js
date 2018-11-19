@@ -1,5 +1,6 @@
 var copiedElement = false;
 var orihtmlContent = "";
+var old_scroll_top = 0;
 /*widad*/
 function trim(e) {
 	return e.replace(/^\s+|\s+$/g, "")
@@ -28810,12 +28811,21 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		link: function (e) {
 			e.$on("builder.dom.loaded", function () {
 				e.frameBody.off("click").on("click", function (t) {
+					function scrollEle(n){//widad D-01043
+						if (n.scrollHeight > n.clientHeight) return n;
+						else return scrollEle(n.parentNode);
+					}
 					if (t.preventDefault(), e.contextMenu.hide(), e.frameWindow.focus(), e.resizing || e.selected.node == t.target) return !0;
 					var n = t.target;
 					if (n.hasAttribute("contenteditable") || n.parentNode.hasAttribute("contenteditable")) return !0;
 					for (var i = e.frameBody.find("[contenteditable]"), r = i.length - 1; r >= 0; r--) i[r].removeAttribute("contenteditable"), i[r].blur();
 					e.textToolbar.hasClass("hidden") || (e.textToolbar.addClass("hidden"), e.$emit("builder.html.changed")), e.linker.addClass("hidden"), e.colorPickerCont && e.colorPickerCont.addClass("hidden"), "HTML" != n.nodeName && e.$apply(function () {
-						e.selectNode(n)
+						e.selectNode(n)//widad D-01043
+						var elem = scrollEle(n);
+						old_scroll_top = $('#select-box').offset().top + elem.scrollTop;						
+						elem.onscroll = function(e){
+							$('#select-box').offset({top: old_scroll_top - elem.scrollTop});							
+						}
 					})
 				})
 			}), e.$on("builder.dom.loaded", function () {
