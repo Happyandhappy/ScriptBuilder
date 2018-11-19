@@ -28811,7 +28811,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		link: function (e) {
 			e.$on("builder.dom.loaded", function () {
 				e.frameBody.off("click").on("click", function (t) {
-					function scrollEle(n){//widad D-01043
+					function scrollEle(n){/*widad D-01043*/
 						if (n.scrollHeight > n.clientHeight) return n;
 						else return scrollEle(n.parentNode);
 					}
