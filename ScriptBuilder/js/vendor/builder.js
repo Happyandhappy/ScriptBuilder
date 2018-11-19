@@ -29027,7 +29027,8 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			this.meta = e
 		},
 		copy: function (e) {
-			e && "BODY" != e.nodeName && (this.copiedNode = $(e).clone())			
+			e && "BODY" != e.nodeName && (this.copiedNode = $(e).clone())
+			copiedElement = true;/*widad*/
 		},
 		paste: function (n) {
 			// var html = e.originalEvent.clipboardData;
@@ -29042,9 +29043,6 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 				t.add("insertNode", i),
 				this.copiedNode = null,
 				e.$broadcast("builder.html.changed")
-				copiedElement = true;/*widad*/
-			}else{
-				copiedElement = false;/*widad*/
 			}
 		},
 		cut: function (e) {
@@ -30124,8 +30122,7 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 			$(e.frameDoc.documentElement).on('paste',function(eve){
 				eve.preventDefault();
 				if (copiedElement) {
-					eve.originalEvent.clipboardData.clearData("text/html");
-					eve.originalEvent.clipboardData.clearData("text/plain");
+					copiedElement = false;				
 					return;
 				}
 				var html = eve.originalEvent.clipboardData.getData("text/html");
@@ -30141,14 +30138,11 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 					styleContent = styleContent.replace('<!--', '').replace('-->','').replace('<style>','').replace('</style>','');
 					styleContent = styleContent.replace(/mso-([\w\W]*?);/g, '');
 					styleContent = styleContent.replace(/\/[*].*[*]\//g,'').replace(/\t/g,"    ");
-					var tempEle  = document.createElement("div");
-					tempEle.innerHTML = styleContent;
-					
-					var originCss = e.customCss[0].innerHTML;
-					if (e.customCss[0].innerHTML.indexOf(tempEle.innerHTML) === -1){
-						e.customCss[0].innerHTML = e.customCss[0].innerHTML + tempEle.innerHTML;
+					var originCss = e.customCss[0].innerHTML;					
+					if (e.customCss[0].innerHTML.indexOf(styleContent) === -1){
+						e.customCss[0].innerHTML = e.customCss[0].innerHTML + styleContent;
 					}
-					
+						
 
 				    /*var csseles = styleContent.split('}');
 				    for (var i = 0 ; i< csseles.length ; i++){
@@ -30185,12 +30179,16 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 					// else{					
 					// 	var div = document.createElement(e.selected.node.tagName);
 					// 	console.log(htmlContent.trim());
-	  				//  div.innerHTML = htmlContent.trim();
-	  				//  e.selected.node.parentNode.replaceChild(div/*.childNodes[0]*/, e.selected.node);			
+	  		// 			div.innerHTML = htmlContent.trim();
+	  		// 			e.selected.node.parentNode.replaceChild(div/*.childNodes[0]*/, e.selected.node);			
 					// }
 
 					// create new element from clipboard
-
+					var ele = document.createElement('div');
+					ele.innerHTML = htmlContent.trim();
+					ele.parentNode = e.selected.node;
+					this.copiedNode = ele;
+					
 					// "BODY" == e.selected.node.nodeName ? $(e.selected.node).append(ele) : $(e.selected.node).after(ele);
 					// var i = {
 					// 	node: ele
@@ -30222,37 +30220,38 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 								if (searchEles[i].innerHTML==='') searchEles[i].parentNode.removeChild(searchEles[i]);
 							}*/
 
-					// 	}
-					// }
+/*						}
+					}
 
-					// e.selected.node.innerHTML = content;
-					// adjustStyle(e.selected.node);
-					// e.selected.node.innerHTML = e.selecte.node.innerHTML.replace(/style=""/g,'').replace(/&quot;/g,"'").replace(/class=""/g,'');
-					
-					var ele = document.createElement('div');
-					ele.innerHTML = htmlContent.trim();
-					ele.parentNode = e.selected.node;
-					t.copy(ele);
-					t.paste(e.selected.node);
+					e.selected.node.innerHTML = content;
+					adjustStyle(e.selected.node);
+					e.selected.node.innerHTML = e.selected.node.innerHTML.replace(/style=""/g,'').replace(/&quot;/g,"'").replace(/class=""/g,'');
+/*
+					if (n && this.copiedNode) {
+						"BODY" == n.nodeName ? $(n).append(this.copiedNode) : $(n).after(this.copiedNode);
+						var i = {
+							node: this.copiedNode
+						};
+						i.parent = i.node.parent(),
+						i.parentContents = i.parent.contents(),
+						i.undoIndex = i.parentContents.index(i.node.get(0)),
+						t.add("insertNode", i),
+						this.copiedNode = null,
+						e.$broadcast("builder.html.changed")
+					}*/
+							
 				}else if(text != null && text !='' && text != undefined){
-
-					var ele = document.createElement('p');
-					ele.innerHTML = text;
-					ele.parentNode = e.selected.node;
-					t.copy(ele);
-					t.paste(e.selected.node);
-
-					// content = '<p>' + text + '</p>';
-					// if (e.selected.node.nodeName === "BODY" || e.selected.node.nodeName === "HTML")
-					// 	e.selected.node.innerHTML = e.selected.node.innerHTML + content;
-					// else{
-	  		// 			e.selected.node.innerHTML = text;
-	  		// 			// e.selected.node.parentNode.replaceChild(tag, e.selected.node);			
-					// }
+					content = '<p>' + text + '</p>';
+					if (e.selected.node.nodeName === "BODY" || e.selected.node.nodeName === "HTML")
+						e.selected.node.innerHTML = e.selected.node.innerHTML + content;
+					else{											
+	  					e.selected.node.innerHTML = text;
+	  					// e.selected.node.parentNode.replaceChild(tag, e.selected.node);			
+					}
 				}
 				// console.log(content);
-				// e.$broadcast("builder.html.changed");
-				e.$broadcast("builder.css.changed");
+				e.$broadcast("builder.html.changed");
+				e.$broadcast("builder.css.changed");							
 			});
 			this.booted || ($(e.frameDoc.documentElement).keydown(function (i) {
 				console.log(i.which);
