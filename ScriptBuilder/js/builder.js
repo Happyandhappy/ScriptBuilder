@@ -28815,7 +28815,8 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		    			if (n.scrollHeight > n.offsetHeight ) {
 		    				old_scroll_top = $('#select-box').offset().top + n.scrollTop;
 		    				n.onscroll = function(e){
-		    					$('#select-box').offset({top: old_scroll_top - n.scrollTop});    					
+		    					$('#select-box').offset({top: old_scroll_top - n.scrollTop});
+		    					$('#text-toolbar').offset({top:old_scroll_top - n.scrollTop - 50}); /*keep the position of textToolbar*/
 		    				}
 		    				if (n.nodeName != "BODY")scrollEle(n.parentNode);
 		    			}
@@ -28828,7 +28829,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 					e.textToolbar.hasClass("hidden") || (e.textToolbar.addClass("hidden"), e.$emit("builder.html.changed")), e.linker.addClass("hidden"), e.colorPickerCont && e.colorPickerCont.addClass("hidden"), "HTML" != n.nodeName && e.$apply(function () {
 						e.selectNode(n)//widad D-01043
 						var elem = scrollEle(n);
-						old_scroll_top = $('#select-box').offset().top + elem.scrollTop;						
+						old_scroll_top = $('#select-box').offset().top + elem.scrollTop;
 						elem.onscroll = function(e){
 							$('#select-box').offset({top: old_scroll_top - elem.scrollTop});							
 						}
