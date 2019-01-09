@@ -1,6 +1,7 @@
 var copiedElement = false;
 var orihtmlContent = "";
 var old_scroll_top = 0;
+var elementsList = [];
 /*widad*/
 function trim(e) {
 	return e.replace(/^\s+|\s+$/g, "")
@@ -27784,7 +27785,9 @@ baseBuilderElements.push({
 	var listener = $scope.$on("builder.dom.loaded", function (e) {
 			var mainStyle = $('<style id="elements-css"></style>').appendTo($scope.frameHead),
 				customCss = "";
-			$http.get("http://www.chasedatacorp.com/assets/load-custom-elements.php").success(function (data) {
+				// http://www.chasedatacorp.com/assets/load-custom-elements.php
+				// /Script_Builder_dev/ScriptBuilder/load-custom-elements.php
+			$http.get("/Script_Builder_dev/ScriptBuilder/load-custom-elements.php").success(function (data) {
 				for (var i = data.length - 1; i >= 0; i--) {
 					var config = eval(data[i].config);
 					config.html = data[i].html, config.css = data[i].css, elements.addElement(config), customCss += "\n" + data[i].css
@@ -28811,28 +28814,33 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		link: function (e) {
 			e.$on("builder.dom.loaded", function () {
 				e.frameBody.off("click").on("click", function (t) {
+					setScrolling = function(n,scrolltop){
+						elementsList.push(n);  // add element to list 
+						$(n).scroll(function(e){ 
+							$('#select-box').offset({top: scrolltop - n.scrollTop});
+							$('#text-toolbar').offset({top:scrolltop - n.scrollTop - 50}); /*keep the position of textToolbar*/
+						})
+					}
 		    		function scrollEle(n){/*widad D-01043*/
 		    			if (n.scrollHeight > n.offsetHeight ) {
-		    				old_scroll_top = $('#select-box').offset().top + n.scrollTop;
-		    				n.onscroll = function(e){
-		    					$('#select-box').offset({top: old_scroll_top - n.scrollTop});
-		    					$('#text-toolbar').offset({top:old_scroll_top - n.scrollTop - 50}); /*keep the position of textToolbar*/
-		    				}
+		    				old_scroll_top = $('#select-box').offset().top + n.scrollTop;		    				
+		    				setScrolling(n, old_scroll_top);
 		    				if (n.nodeName != "BODY")scrollEle(n.parentNode);
 		    			}
 		    			else if (n.nodeName != "BODY") scrollEle(n.parentNode);
-		    		} 
+		    		}
+
+		    		function clearAllEvent(){ 
+		    			elementsList.forEach(function(item) { $(item).off('scroll');});elementsList = [];
+		    		}
 					if (t.preventDefault(), e.contextMenu.hide(), e.frameWindow.focus(), e.resizing || e.selected.node == t.target) return !0;
 					var n = t.target;
 					if (n.hasAttribute("contenteditable") || n.parentNode.hasAttribute("contenteditable")) return !0;
 					for (var i = e.frameBody.find("[contenteditable]"), r = i.length - 1; r >= 0; r--) i[r].removeAttribute("contenteditable"), i[r].blur();
 					e.textToolbar.hasClass("hidden") || (e.textToolbar.addClass("hidden"), e.$emit("builder.html.changed")), e.linker.addClass("hidden"), e.colorPickerCont && e.colorPickerCont.addClass("hidden"), "HTML" != n.nodeName && e.$apply(function () {
 						e.selectNode(n)//widad D-01043
+						clearAllEvent();
 						var elem = scrollEle(n);
-						old_scroll_top = $('#select-box').offset().top + elem.scrollTop;
-						elem.onscroll = function(e){
-							$('#select-box').offset({top: old_scroll_top - elem.scrollTop});							
-						}
 					})
 				})
 			}), e.$on("builder.dom.loaded", function () {
@@ -28848,14 +28856,29 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		replace: !0,
 		template: '<div id="hover-box"><div id="hover-box-actions"><span class="element-tag">#</span></div></div>',
 		link: function (t, n) {
-			t.$on("builder.dom.loaded", function (n) {				
-				t.frameBody.off("mousemove").on("mousemove", function (n) {					
-					if (!t.dragging) {						
-						t.hover.previous = t.hover.node;
+			t.$on("builder.dom.loaded", function (n) {
+					
+					function scrollEle(n){/*widad D-01043*/
+						if (n.scrollHeight > n.offsetHeight ) {
+							var top = $('#hover-box').offset().top + n.scrollTop;
+							$(n).scroll(function(e){
+								t.hoverBox.hide();
+							});
+		    				if (n.nodeName != "BODY")scrollEle(n.parentNode);
+		    			}
+		    			else if (n.nodeName != "BODY") scrollEle(n.parentNode);
+		    		}
+
+				t.frameBody.off("mousemove").on("mousemove", function (n) {
+					if (!t.dragging) {
+						t.hover.previous = t.hover.node;						
 						var i = t.elementFromPoint(n.pageX, n.pageY - t.frameBody.scrollTop());
-						if (t.selected.node && t.selected.node == i) return t.hoverBox.hide(); - 1 == i.className.indexOf("ui-resizable-handle") && (t.hover.node = i, t.hover.element = e.match(t.hover.node, "hover", !0), (!t.dragging || t.isWebkit) && t.repositionBox("hover", t.hover.node, t.hover.element))
+						scrollEle(i);
+						if (t.selected.node && t.selected.node == i) 
+							return t.hoverBox.hide(); 
+						- 1 == i.className.indexOf("ui-resizable-handle") && (t.hover.node = i, t.hover.element = e.match(t.hover.node, "hover", !0), (!t.dragging || t.isWebkit) && t.repositionBox("hover", t.hover.node, t.hover.element))
 					}
-				})
+				});
 			})
 		}
 	}
@@ -29035,7 +29058,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 				var m = r || t;
 				m && m.js && (l += "<script>" + m.js + "</script>")
 			}
-			return "<!DOCTYPE html>\n<html>" + o + l + "</html>"
+			return style_html("<!DOCTYPE html>\n<html>" + o + l + "</html>") /* adjust style widad*/
 		},
 		previewsToHtml: function (e) {
 			return e.replace(/<img.+?data-src="(.+?)".+?>/gi, '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="$1"></iframe></div>')
@@ -29059,6 +29082,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 				t.add("insertNode", i),
 				this.copiedNode = null,
 				e.$broadcast("builder.html.changed")
+
 				copiedElement = true;/*widad*/
 			}else{
 				copiedElement = false;/*widad*/
@@ -29322,6 +29346,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			this.cache.htmlEditor.getSession().setMode("ace/mode/html"), 
 			this.cache.htmlEditor.setValue(orihtmlContent==''? style_html(n.getHtml()):orihtmlContent, -1),/*widad*/  
 			e.$on("builder.html.changed", function () {
+				orihtmlContent = n.getHtml();
 				o.ignoreHtmlEditorChange = !0, o.cache.htmlEditor.setValue(style_html(n.getHtml()), -1)
 			}), this.cache.htmlEditor.on("focus", function (e) {
 				r.hideEditor()
@@ -29977,7 +30002,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		save: function (t) {
 			if (e.savingChanges || !l.active) return !1;
 			e.savingChanges = !0, t || (t = "all");
-			var o = l.getPage(l.activePage.name);
+			var o = l.getPage(l.activePage.name);			
 			("all" == t || t.indexOf("html") > -1) && (o.html = style_html(r.getHtml())), ("all" == t || t.indexOf("css") > -1) && (o.css = i.compile()), a.set("architect-project", this.active);
 			getScriptContent(orihtmlContent, o.css, o.js), n(function () {/*widad*/
 				e.savingChanges = !1
@@ -30267,8 +30292,8 @@ angular.module("builder").factory("keybinds", ["$rootScope", "dom", "undoManager
 	  		// 			// e.selected.node.parentNode.replaceChild(tag, e.selected.node);			
 					// }
 				}
-				// console.log(content);
-				// e.$broadcast("builder.html.changed");
+				// console.log(content);				
+				e.$broadcast("builder.html.changed");
 				e.$broadcast("builder.css.changed");
 			});
 			this.booted || ($(e.frameDoc.documentElement).keydown(function (i) {

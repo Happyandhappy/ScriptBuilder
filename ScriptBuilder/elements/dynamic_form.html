@@ -1,46 +1,149 @@
 <style>
+@font-face {
+   font-family: myFont;
+   src: url('http://www.chasedatacorp.com/assets/fonts/segoeui.ttf');
+}
+
+body{
+    font-family:myFont;
+}           
+.fname{
+   display:inline-block;
+   width:49.5%;
+   float:left;
+   margin-bottom :15px;
+}
+
+.lname{
+    display:inline-block;
+    width:49.5%;
+    float:right;
+    margin-bottom :15px;
+}
+
+.panel-body{
+    background-color:#eee;
+}
+
+input[type=submit]{
+    background: #2d3c5a;
+    color: white;
+    height: 40px;
+    font-size: 20px;
+    padding: 0px 0px;
+    letter-spacing: 2px;
+}
+
+
+input,
+input::-webkit-input-placeholder {
+    font-size: 10px;
+}
+
+
+select:required:invalid {
+    color: #999;
+    padding-bottom: 0px!important;
+    font-size: 12px!important;
+}
+
+select{
+    padding-right: calc(24px);
+    background-size: .5em;
+    background-image: url("data:image/svg+xml;utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201000%201805.18%22%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M461.6%2C643.4L10.9%2C79.9C-14.9%2C47.7%2C8%2C0%2C49.3%2C0h901.5c41.2%2C0%2C64.1%2C47.7%2C38.4%2C79.9L538.4%2C643.4%09C518.7%2C668%2C481.3%2C668%2C461.6%2C643.4z%22%20transform%3D%22rotate%28180%20500%20902.59%29%20translate%280%201143.28%29%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M461.6%2C643.4L10.9%2C79.9C-14.9%2C47.7%2C8%2C0%2C49.3%2C0h901.5c41.2%2C0%2C64.1%2C47.7%2C38.4%2C79.9L538.4%2C643.4%09C518.7%2C668%2C481.3%2C668%2C461.6%2C643.4z%22%20transform%3D%22translate%280%201143.28%29%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E")!important;
+    background-repeat: no-repeat;
+    background-position: right 6px top 50%;
+    -webkit-appearance: none;
+}
+option[value=""]{
+    display: none;
+}
+
+h4{
+    letter-spacing:2px;
+}
+
+.first{
+    display:inline-block!important;
+    width:33%!important;
+    margin-right:0.5%;
+    float:left;
+}
+.second{
+    display:inline;
+    width:33%!important;
+    float:left;
+    margin-right:0.5%;
+}
+
+.third{
+    display:inline;
+    width:33%!important;
+    float:right;
+}
+
+
+.padding{
+    padding-top:40px;
+}
+
 </style>
 
-<form control="form" style="padding: 12px;" class="dynamic-form">
-    <div class="panel panel-primary">
-        <div class="panel-heading">Contact Form</div>
-        <div class="panel-body">
-            <div class="form-group">
-                <label class="control-label">First Name</label>
-                <input class="control-input form-control" size="4" type="text" control="input" field-name="FirstName">
+    <form control="form" style="padding: 12px;" class="dynamic-form">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>Contact Information form</h3>
             </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <h4>Contact Person*</h4>
+                </div>
+                <div class="form-group">
+                    <div class="fname">
+                        <input class="control-input form-control" size="4" type="text" control="input" field-name="FirstName" placeholder="(#FirstName#)"  container="1">
+                    </div>
+                    <div class="lname">
+                        <input class="control-input form-control" size="4" type="text" control="input" field-name="LastName" placeholder="(#LastName#)"  container="1">
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label class="control-label">Last Name</label>
-                <input class="control-input form-control" size="4" type="text" control="input" field-name="LastName">
+
+                <div class="form-group">
+                    <input class="control-input form-control" size="4" type="text" control="input" field-name="PrimaryPhone" placeholder="(#PrimaryPhone#)"  container="1">
+                </div>
+
+                <div class="form-group">
+                    <input class="control-input form-control" size="4" type="text" control="input" field-name="Address" placeholder="(#Address#)"  container="1">
+                </div>
+
+                <div class="form-group">
+                    <div class="first">
+                        <input class="control-input form-control" size="4" type="text" control="input" field-name="City" placeholder="(#City#)"  container="1">
+                    </div>
+                    <div class="second">
+                        <select class="control-select form-control" control="select" field-name="State" required="">
+                            <option value="" selected="" hidden="">state</option>
+                            <option value="value1">1</option>
+                            <option value="value2">2</option>
+                            <option value="value3">3</option>
+                            <option value="value4">4</option>
+                        </select>
+                    </div>
+                    <div class="third">
+                        <input class="control-input form-control" size="4" type="text" control="input" field-name="ZipCode" placeholder="(#ZipCode#)"  container="1">
+                    </div>
+                </div>
+
+                <div class="form-group padding">
+                    <h4>Notes Section</h4>
+                    <textarea class="form-control" rows="3" placeholder="(#Notes#)" name="Notes"></textarea>
+                </div>                
             </div>
-
-            <div class="form-group">
-                <label class="control-label">Address</label>
-                <input class="control-input form-control" size="4" type="text" control="input" field-name="Address">
+            <div class="panel-footer">
+                <input type="submit" control="submit" action="submit_and_navigate" navigate-to="confirmation_page" value="Submit and Navigate" class="control-submit form-control">
             </div>
-
-            <section class="row">
-                <div class="col-md-4">
-                    <label class="control-label">City</label>
-                    <input class="control-input form-control" size="4" type="text" control="input" field-name="City" placeholder="City">
-                </div>
-                <div class="col-md-4">
-                    <label class="control-label">State</label>
-                    <input class="control-input form-control" size="4" type="text" control="input" field-name="State" placeholder="State">
-                </div>
-                <div class="col-md-4">
-                    <label class="control-label">ZipCode</label>
-                    <input class="control-input form-control" size="4" type="text" control="input" field-name="ZipCode" placeholder="ZipCode">
-                </div>
-            </section>
         </div>
-
-        <div class="panel-footer">
-            <input type='submit' control='submit' value='Save Data' class="control-submit form-control btn btn-success" />
-        </div>
-    </div>
-</form>
+    </form>
 
     <script>
         ({

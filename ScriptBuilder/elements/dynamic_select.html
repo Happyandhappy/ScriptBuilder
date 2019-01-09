@@ -79,14 +79,16 @@
                     }
                 }
             },
-            'Lead Field': {
-                text: true,
-                value: 'Field Name',
+            'Field Name': {
+                list:[],                
                 onAssign: function ($scope) {
-                    this.value = $scope.selected.node.getAttribute('field-name');
+                    for (var t = this.list.length - 1; t >= 0; t--)
+                        if ($scope.selected.node.getAttribute("field-name") == this.list[t].value)
+                            return this.value = this.list[t];
+                    return this.value = this.list[0]
                 },
-                onChange: function ($scope, text) {
-                    $scope.selected.node.setAttribute('field-name', text);
+                onChange: function ($scope, t) {
+                    $scope.selected.node.setAttribute('field-name', t.value);
                 }
             }
         }

@@ -87,7 +87,7 @@
                     document.getElementById('scriptContent').value = data.html;
                     document.getElementById('cssContent').value = data.css;
                     document.getElementById('jsContent').value = data.js;
-                    loadScript('ScriptBuilder/js/builder.min.js?v2');
+                    loadScript('ScriptBuilder/js/builder.js?v2');
                 }
                 else {
                     alert('Request failed.  Returned status of ' + xhr.status);
