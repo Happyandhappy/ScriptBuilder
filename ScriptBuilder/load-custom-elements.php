@@ -1,5 +1,7 @@
 <?php
 
+$ser_url = "Script_Builder_dev";
+
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -19,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 
 function getTableData(){
-    $url = "{$_SERVER['SERVER_NAME']}/Script_Builder_dev/list.php?token=6D52F8F1-4600-4D5F-8B0A-02BA9F430916&id=10&Container=";
+    $url = "{$_SERVER['SERVER_NAME']}/{$GLOBALS['ser_url']}/list.php?token=6D52F8F1-4600-4D5F-8B0A-02BA9F430916&id=10&Container=";    
     $ch = curl_init($url);    
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -39,9 +41,6 @@ $files = new DirectoryIterator($path);
 $tabledata = getTableData();
 $containerlist = preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/','$1:',json_encode($tabledata->container)) ;
 $dtlist = preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/','$1:',json_encode($tabledata->lists));
-
-// echo $dtlist;
-// exit;
 
 foreach ($files as $file) {
     if ( ! $file->isDot()) {

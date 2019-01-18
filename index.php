@@ -83,7 +83,6 @@
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
-                    console.log(JSON.parse(xhr.responseText));
                     document.getElementById('scriptContent').value = data.html;
                     document.getElementById('cssContent').value = data.css;
                     document.getElementById('jsContent').value = data.js;

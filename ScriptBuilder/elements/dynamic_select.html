@@ -79,18 +79,63 @@
                     }
                 }
             },
-            'Field Name': {
-                list:[],                
-                onAssign: function ($scope) {
+            // 'Field Name': {
+            //     list:[],                
+            //     onAssign: function ($scope) {
+            //         for (var t = this.list.length - 1; t >= 0; t--)
+            //             if ($scope.selected.node.getAttribute("field-name") == this.list[t].value)
+            //                 return this.value = this.list[t];
+            //         return this.value = this.list[0]
+            //     },
+            //     onChange: function ($scope, t) {
+            //         $scope.selected.node.setAttribute('field-name', t.value);
+            //     }
+            // },
+
+            /* Added by Widad to select Table list */
+            'Table Name':{
+                list:[{}],
+                onAssign : function($scope){                    
                     for (var t = this.list.length - 1; t >= 0; t--)
-                        if ($scope.selected.node.getAttribute("field-name") == this.list[t].value)
+                        if ($scope.selected.node.getAttribute("container") == this.list[t].value)
                             return this.value = this.list[t];
+                    $scope.selected.node.setAttribute("container", this.list[0].value);
                     return this.value = this.list[0]
                 },
-                onChange: function ($scope, t) {
-                    $scope.selected.node.setAttribute('field-name', t.value);
+                onChange : function($scope, t){
+                    $scope.selected.node.setAttribute('container', t.value);
+                    if ($scope.selected.node.getAttribute("field-name") === "")
+                        $scope.selected.node.setAttribute('field-name', "Field Name");
+                    else
+                        $scope.selected.node.setAttribute('field-name', "");
                 }
             }
+            ,
+            'Field Name': {
+                list:[],
+                dtlist:[],
+                onAssign: function ($scope) {
+                    var container = $scope.selected.node.getAttribute('container');
+                    if (container != undefined && container != ""){
+                        this.list = this.dtlist[container];                        
+                        for (var t = this.list.length - 1; t >= 0; t--)
+                            if ($scope.selected.node.getAttribute("field-name") == this.list[t].value)
+                                return this.value = this.list[t];
+                        return this.value = this.list[0]
+                    }
+                },
+                onChange: function ($scope, t) {
+                    if (t == null) {
+                        this.onAssign($scope);return;
+                    }
+                    var container = $scope.selected.node.getAttribute('container');                    
+                    this.list = this.dtlist[container];                    
+                    $scope.selected.node.setAttribute('field-name', t.value);
+                    console.log($scope.selected.node.options[0].innerHTML = "(#" + t.value + "#)");
+                    // $scope.selected.node.setAttribute('placeholder', "(#" + t.value + "#)");
+                }
+            },
+
         }
     });
 </script>
