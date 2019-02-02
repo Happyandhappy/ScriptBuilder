@@ -44,25 +44,29 @@ $dtlist = preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/','$1:',json_encode($tabled
 
 foreach ($files as $file) {
     if ( ! $file->isDot()) {
-        $contents = file_get_contents($path.'/'.$file->getFilename());
-
-        preg_match('/<script>(.+?)<\/script>/s', $contents, $config);
-        preg_match('/<style.*?>(.+?)<\/style>/s', $contents, $css);
-        preg_match('/<\/style.*?>(.+?)<script>/s', $contents, $html);        
-
-        if (!isset($config[1]) || !isset($html[1])) {
-            continue;
-        }
-        
-        $config[1] = str_replace('dtlist:[]', "dtlist:" . $dtlist, $config[1], $i);
-        $config[1] = str_replace('list:[{}]', "list:" . $containerlist, $config[1], $i);
-
-        $elements[] = array(
-            'css' => isset($css[1]) ? trim($css[1]) : '',
-            'html' => trim($html[1]),
-            'config' => trim($config[1])
-        );
+        $dirs[] = $file->getFilename();
     }
+}
+asort($dirs);
+foreach ($dirs as $file) {    
+    $contents = file_get_contents($path.'/'.$file);
+
+    preg_match('/<script>(.+?)<\/script>/s', $contents, $config);
+    preg_match('/<style.*?>(.+?)<\/style>/s', $contents, $css);
+    preg_match('/<\/style.*?>(.+?)<script>/s', $contents, $html);        
+
+    if (!isset($config[1]) || !isset($html[1])) {
+        continue;
+    }
+    
+    $config[1] = str_replace('dtlist:[]', "dtlist:" . $dtlist, $config[1], $i);
+    $config[1] = str_replace('list:[{}]', "list:" . $containerlist, $config[1], $i);
+
+    $elements[] = array(
+        'css' => isset($css[1]) ? trim($css[1]) : '',
+        'html' => trim($html[1]),
+        'config' => trim($config[1])
+    );
 }
 
 echo json_encode($elements);

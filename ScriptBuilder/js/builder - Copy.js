@@ -211,7 +211,6 @@ function style_html(e, t, n, i) {
 	}
 	return o.output.join("")
 }
-
 if ("function" == typeof define && define.amd) define(["require", "./beautify", "./beautify-css"], function (e) {
 	var t = e("./beautify"),
 		n = e("./beautify-css");
@@ -27163,11 +27162,9 @@ baseBuilderElements.push({
 	category: "buttons",
 	previewScale: "0.6",
 	icon: "progress-3"
-}),
-
-/*baseBuilderElements.push({
+}), baseBuilderElements.push({
 	name: "input field",
-	nodes: ["input=text", "input=email", "input=password"],
+	nodes: !1 /*["input=text", "input=email", "input=password"]*/ ,
 	frameworks: ["bootstrap"],
 	html: '<input type="text" class="form-control" placeholder="Text input">',
 	types: ["flow", "phrasing", "interactive", "listed", "labelable", "submittable", "resettable", "reassociateable", "form-associated"],
@@ -27242,10 +27239,9 @@ baseBuilderElements.push({
 				e.selected.node.setAttribute("type", t.value)
 			}
 		},
-	}	
-}),*/
-/*
-baseBuilderElements.push({
+	}
+	
+}), baseBuilderElements.push({
 	name: "text area",
 	nodes: ["textarea"],
 	frameworks: ["bootstrap"],
@@ -27279,9 +27275,7 @@ baseBuilderElements.push({
 			}
 		}
 	}
-}), */
-
-baseBuilderElements.push({
+}), baseBuilderElements.push({
 	name: "checkbox",
 	nodes: "*",
 	frameworks: ["bootstrap"],
@@ -27292,9 +27286,7 @@ baseBuilderElements.push({
 	category: "forms",
 	showWysiwyg: !1,
 	icon: "check"
-}), 
-
-baseBuilderElements.push({
+}), baseBuilderElements.push({
 	name: "input group",
 	nodes: "*",
 	frameworks: ["bootstrap"],
@@ -27431,53 +27423,35 @@ baseBuilderElements.push({
 	},
 	showWysiwyg: !1,
 	hiddenClasses: ["input-group-addon"]
-}), 
-/*
-baseBuilderElements.push({
+}), baseBuilderElements.push({
 	name: "select",
 	nodes: ["select"],
-	class: 'form-control',
 	frameworks: ["bootstrap"],
-	html: '<select class="form-control" control="select"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>',
-	types: ["flow"],
+	html: '<select class="form-control"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>',
+	types: ["flow", "phrasing", "interactive", "listed", "labelable", "submittable", "resettable", "reassociateable", "form-associated"],
 	validChildren: !1,
-	previewScale: "0.5",	
-	category: "forms",
-	icon: "arrow-combo",
 	attributes: {
-        values: {
-            text: true,
-            value: '=;1=value1;2=value2;3=value3;4=value4',
-            onAssign: function ($scope) {
-                this.value = '';
-                var i;
-                for (i = 0; i < $scope.selected.node.length; i++) {
-                    var option = $scope.selected.node.options[i];
-                    this.value += (option.text + '=' + option.value + ';');
-                }
-
-                if (this.value.length > 0)
-                    this.value = this.value.substring(0, this.value.length - 1);
-            },
-            onChange: function ($scope, text) {
-                while ($scope.selected.node.length > 0) {
-                    $scope.selected.node.remove($scope.selected.node.options[0]);
-                }
-
-                var values = text.split(";");
-                var i;
-                for (i = 0; i < values.length; i++) {
-                    var keyval = values[i].split("=");
-                    var option = document.createElement("option");
-                    option.text = keyval[0];
-                    option.value = keyval[1];
-                    $scope.selected.node.add(option);
-                }
-            }
-        },
-    }
-}),*/
-baseBuilderElements.push({
+		state: {
+			list: [{
+				name: "None",
+				value: ""
+			}, {
+				name: "Error",
+				value: "has-error"
+			}, {
+				name: "Success",
+				value: "has-success"
+			}, {
+				name: "Warning",
+				value: "has-warning"
+			}]
+		}
+	},
+	previewScale: "0.5",
+	showWysiwyg: !1,
+	category: "forms",
+	icon: "arrow-combo"
+}), baseBuilderElements.push({
 	name: "image",
 	nodes: ["img"],
 	frameworks: ["bootstrap"],
@@ -29094,8 +29068,6 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 				var g = l.match(/<script class="element-css".*>.*<\/script>/gi, "");
 				if (l = l.replace(/<script class="element-css".*>.*<\/script>/gi, ""), l += '<script src="ScriptBuilder/js/vendor/jquery.js"></script>', l += '<script src="ScriptBuilder/js/vendor/bootstrap/bootstrap.min.js"></script>', g && g.length)
 					for (var u = 0; u < g.length; u++) l += g[u];
-				l +="<script src='http://localhost/Script_Builder_dev/ScriptBuilder/js/secure.js'></script>";
-
 				var m = r || t;
 				m && m.js && (l += "<script>" + m.js + "</script>")
 			}
@@ -29341,7 +29313,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 }]), angular.module("builder.editors", []).controller("CodeEditorController", ["$scope", "codeEditors", "dom", "project", function (e, t, n, i) {
 	e.editors = t, e.themes = ["chrome", "clouds", "crimson_editor", "tomorrow_night", "dawn", "dreamweaver", "eclipse", "github", "solarized_light", "textmate", "tomorrow", "xcode", "kuroir", "katzen_milch", "ambiance", "chaos", "clouds_midnight", "cobalt", "idle_fingers", "kr_theme", "merbivore", "merbivore_soft", "mono_industrial", "monokai", "pastel_on_dark", "solarized_light", "terminal", "tomorrow_night_blue", "tomorrow_night_bright", "tomorrow_night_80s", "twilight", "vibrant_ink"], 
 	e.$on("builder.page.changed", function () {
-		t.cache.htmlEditor && (t.ignoreHtmlEditorChange = !1,/*widad*/ t.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), t.reloadCss(), t.cache.jsEditor.setValue(i.activePage.js, -1))
+		t.cache.htmlEditor && (t.ignoreHtmlEditorChange = !1,/*widad*/ t.cache.htmlEditor.setValue(style_html(n.getHtml()), -1), t.reloadCss(), t.cache.jsEditor.setValue(i.activePage.js, -1))		
 	}), e.$on("element.reselected", function (e, n) {
 		t.cache.htmlEditor.find(n.outerHTML)
 	}), e.$on("builder.css.changed", function (e) {
@@ -29371,6 +29343,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 			e && "undefined" !== e && this.cache.cssEditor.setValue(t.compile(), -1), this.loadingCss = !1
 		},
 		init: function () {
+
 			this.cache.wrapper = $("#code-editor-wrapper"), 
 			this.cache.editors = $("#html-code-editor, #css-code-editor, #js-code-editor"), 
 			this.cache.htmlEditor = ace.edit("html-code-editor"), 
@@ -29539,9 +29512,7 @@ angular.module("builder", ["pascalprecht.translate", "angularFileUpload", "ngAni
 		}
 	};
 	return n
-}]),
-
-angular.module("builder.styling").controller("TemplatesController", ["$scope", "templates", "themes", "dom", "css", "project", function (e, t, n, i, r, o) {
+}]), angular.module("builder.styling").controller("TemplatesController", ["$scope", "templates", "themes", "dom", "css", "project", function (e, t, n, i, r, o) {
 	e.templates = t, e.templateData = {
 		name: "",
 		type: "create",
@@ -29770,8 +29741,7 @@ angular.module("builder.styling").controller("TemplatesController", ["$scope", "
 			})
 		}
 	}
-}]), 
-angular.module("builder.styling").controller("ThemesCreatorController", ["$scope", "$http", "themes", function (e, t, n) {
+}]), angular.module("builder.styling").controller("ThemesCreatorController", ["$scope", "$http", "themes", function (e, t, n) {
 	e.themes = n, e.modifiedVars = {}, e.customLess = !1, e.customLessOpen = !1, e.bootstrap = {
 		defaultVars: !1,
 		activeVars: !1,
@@ -29850,8 +29820,7 @@ angular.module("builder.styling").controller("ThemesCreatorController", ["$scope
 			e.lessEditor.resize(), e.lessEditor.focus()
 		}, 250)
 	}
-}]), 
-angular.module("builder.styling").factory("css", ["$rootScope", function (e) {
+}]), angular.module("builder.styling").factory("css", ["$rootScope", function (e) {
 	e.$on("element.reselected", function (n) {
 		e.selected.selector = t.formatSelector(e.selected.path.slice(0))
 	});
@@ -29938,8 +29907,7 @@ angular.module("builder.styling").factory("css", ["$rootScope", function (e) {
 		}
 	};
 	return t
-}]), 
-angular.module("builder.settings").factory("localStorage", function () {
+}]), angular.module("builder.settings").factory("localStorage", function () {
 	var e = {
 		expireAfter: 2,
 		get: function (e) {
@@ -29959,8 +29927,7 @@ angular.module("builder.settings").factory("localStorage", function () {
 		}
 	};
 	return e
-}), 
-angular.module("builder.editors").factory("imageEditor", ["$rootScope", "$http", function (e, t) {
+}), angular.module("builder.editors").factory("imageEditor", ["$rootScope", "$http", function (e, t) {
 	var n = {
 		editor: !1,
 		booted: !1,
@@ -29999,8 +29966,7 @@ angular.module("builder.editors").factory("imageEditor", ["$rootScope", "$http",
 		}
 	};
 	return n
-}]), 
-angular.module("builder.projects", []).factory("project", ["$rootScope", "$http", "$timeout", "css", "dom", "settings", "themes", "localStorage", function (e, t, n, i, r, o, s, a) {
+}]), angular.module("builder.projects", []).factory("project", ["$rootScope", "$http", "$timeout", "css", "dom", "settings", "themes", "localStorage", function (e, t, n, i, r, o, s, a) {
 	var l = {
 		active: !1,
 		activePage: !1,
@@ -30094,8 +30060,7 @@ angular.module("builder.projects", []).factory("project", ["$rootScope", "$http"
 	}, o.get("autoSaveDelay"))), e.$on("builder.theme.changed", blDebounce(function (t) {
 		o.get("enableAutoSave") && !e.dragging && l.save(["theme"])
 	}, o.get("autoSaveDelay"))), l
-}]), 
-angular.module("builder.projects").controller("PagesController", ["$scope", "$http", "$translate", "project", "localStorage", function (e, t, n, i, r) {
+}]), angular.module("builder.projects").controller("PagesController", ["$scope", "$http", "$translate", "project", "localStorage", function (e, t, n, i, r) {
 	e.project = i, e.loading = !1, e.emptyProject = function () {
 		alertify.confirm(n.instant("emptyProjectConfirmation"), function (t) {
 			t && (e.loading = !0, i.clear(), e.loading = !1)
@@ -30119,8 +30084,7 @@ angular.module("builder.projects").controller("PagesController", ["$scope", "$ht
 		for (var n = 0; n < e.project.active.pages.length; n++) e.project.active.pages[n].name === t.name && (t.name = t.name + " Copy");
 		e.project.active.pages.push(t), i.save("page"), e.loading = !1, i.changePage(t.name)
 	}
-}]), 
-angular.module("builder.projects").controller("ExportController", ["$scope", "project", "dom", function (e, t, n) {
+}]), angular.module("builder.projects").controller("ExportController", ["$scope", "project", "dom", function (e, t, n) {
 	e.project = t, e.images = [], e.activePage = {
 		name: "index",
 		ref: {}

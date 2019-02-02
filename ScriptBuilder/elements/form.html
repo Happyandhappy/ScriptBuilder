@@ -5,12 +5,12 @@
     <form accept-charset="UTF-8" action="/" class="clearfix form-cc">
         <div class="col-xs-12 form-group">
             <label class="control-label">Name on Card</label>
-            <input class="form-control" size="4" type="text">
+            <input class="form-control form-control" size="4" type="text" field-name="Name on Card">
         </div>
 
         <div class="col-xs-12 form-group card required">
             <label class="control-label">Card Number</label>
-            <input autocomplete="off" class="form-control card-number" size="20" type="text">
+            <input autocomplete="off" class="control-secure form-control" size="20" type="secure" field-name="Card Number">
         </div>
 
         <div class="col-xs-12 form-group card required">
@@ -64,7 +64,6 @@
                     }
                 },
                 onChange: function($scope, type) {
-
                     //strip any previously assigned type classes from the icon
                     for (var i = this.list.length - 1; i >= 0; i--) {
                         $($scope.selected.node).removeClass(this.list[i].value);

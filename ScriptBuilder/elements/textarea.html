@@ -1,29 +1,40 @@
 <style>
 </style>
-<input class="control-input form-control" size="4" type="text" control="input" field-name="Field Name" container="1" placeholder="Input Field">
+<textarea class="form-control" rows="3"></textarea>
 <script>
-    ({
-        nodes: '*',
-        class: 'control-input',
-        name: 'input',
-        frameworks: ['bootstrap'],
-        types: ['flow'],
-        validChildren: ['flow'],
-        previewScale: '0.25',
-        category: 'dynamic',
-        icon: 'minus-outline',
-        attributes: {            
-            /* Added by Widad to select Table list */
+	({
+		name: "text area",
+		nodes: ["textarea"],
+		frameworks: ["bootstrap"],
+		types: ["flow"],
+		validChildren: !1,
+		previewScale: "0.5",
+		showWysiwyg: !1,
+		hiddenClasses: ["form-control"],
+		category: "forms",
+		icon: "doc-landscape",
+		attributes: {
+			'rows': {
+				text: !0,
+				value: 1,
+				onAssign: function (e) {
+					this.value = e.selected.node.getAttribute("rows")
+				},
+				onChange: function (e, t) {
+					e.selected.node.setAttribute("rows", t), e.repositionBox("select")
+				}
+			},
+			/* Added by Widad to select Table list */
             'Table Name':{
                 list:[{}],
-                onAssign : function($scope){                    
+                onAssign : function($scope){
                     for (var t = this.list.length - 1; t >= 0; t--)
                         if ($scope.selected.node.getAttribute("container") == this.list[t].value)
                             return this.value = this.list[t];
                     $scope.selected.node.setAttribute("container", this.list[0].value);
                     return this.value = this.list[0]
                 },
-                onChange : function($scope, t){
+                onChange : function($scope, t){                    
                     $scope.selected.node.setAttribute('container', t.value);
                     if ($scope.selected.node.getAttribute("field-name") === "")
                         $scope.selected.node.setAttribute('field-name', "Field Name");
@@ -35,17 +46,18 @@
             'Field Name': {
                 list:[],
                 dtlist:[],
-                onAssign: function ($scope) {
+                onAssign: function ($scope) {                    
                     var container = $scope.selected.node.getAttribute('container');
                     if (container != undefined && container != ""){
                         this.list = this.dtlist[container];                        
                         for (var t = this.list.length - 1; t >= 0; t--)
                             if ($scope.selected.node.getAttribute("field-name") == this.list[t].value)
                                 return this.value = this.list[t];
+                        this.onChange($scope, this.list[0]);
                         return this.value = this.list[0]
                     }
                 },
-                onChange: function ($scope, t) {                    
+                onChange: function ($scope, t) {
                     if (t == null) {
                         this.onAssign($scope);return;
                     }
@@ -53,20 +65,18 @@
                     var container = $scope.selected.node.getAttribute('container');                    
                     this.list = this.dtlist[container];
                     $scope.selected.node.setAttribute('field-name', t.value);
-                    $scope.selected.node.setAttribute('type', t.type);
-                    $scope.selected.node.setAttribute('placeholder', "(#" + t.value + "#)");
                 }
             },
-            'placeholder    ': {
-                text: true,
-                value: '',
-                onAssign: function ($scope) {
-                    this.value = $scope.selected.node.getAttribute('placeholder');
-                },
-                onChange: function ($scope, text) {
-                    $scope.selected.node.setAttribute('placeholder', text);
-                }
-            }
-        }
-    });
-</script>l
+			'placeholder': {
+				text: !0,
+				value: "Text input",
+				onAssign: function (e) {
+					this.value = e.selected.node.getAttribute("placeholder")
+				},
+				onChange: function (e, t) {
+					e.selected.node.setAttribute("placeholder", t), e.repositionBox("select")
+				}
+			}
+		}
+	});
+</script>

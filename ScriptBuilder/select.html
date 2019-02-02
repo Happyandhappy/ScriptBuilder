@@ -1,0 +1,83 @@
+<style>
+</style>
+
+<select class="form-control">
+    <option value="" selected></option>
+    <option value="value1">1</option>
+    <option value="value2">2</option>
+    <option value="value3">3</option>
+    <option value="value4">4</option>
+</select>
+
+<script>
+    ({
+        nodes:  ["select"],        
+        name: 'select',
+        frameworks: ['bootstrap'],
+        types: ["flow", "phrasing", "interactive", "listed", "labelable", "submittable", "resettable", "reassociateable", "form-associated"],
+        validChildren: !0,
+        previewScale: '0.25',
+        category: 'forms',
+        icon: 'arrow-combo',
+        attributes: {
+            'selected    ': {
+                text: true,
+                value: '',
+                onAssign: function ($scope) {
+                    this.value = '';
+
+                    var i;
+                    for (i = 0; i < $scope.selected.node.length; i++) {
+                        var option = $scope.selected.node.options[i];
+                        if (option.getAttribute('selected') != null) {
+                            this.value = option.text;
+                            break;
+                        }
+                    }
+                },
+                onChange: function ($scope, text) {
+                    $scope.selected.node.value = text;
+
+                    var i;
+                    for (i = 0; i < $scope.selected.node.length; i++) {
+                        var option = $scope.selected.node.options[i];
+                        option.removeAttribute('selected');
+
+                        if (option.text == this.value)
+                            option.setAttribute('selected', '');
+                    }
+                }
+            },
+            'values    ': {
+                text: true,
+                value: '=;1=value1;2=value2;3=value3;4=value4',
+                onAssign: function ($scope) {
+                    this.value = '';
+                    var i;
+                    for (i = 0; i < $scope.selected.node.length; i++) {
+                        var option = $scope.selected.node.options[i];
+                        this.value += (option.text + '=' + option.value + ';');
+                    }
+
+                    if (this.value.length > 0)
+                        this.value = this.value.substring(0, this.value.length - 1);
+                },
+                onChange: function ($scope, text) {
+                    while ($scope.selected.node.length > 0) {
+                        $scope.selected.node.remove($scope.selected.node.options[0]);
+                    }
+
+                    var values = text.split(";");
+                    var i;
+                    for (i = 0; i < values.length; i++) {
+                        var keyval = values[i].split("=");
+                        var option = document.createElement("option");
+                        option.text = keyval[0];
+                        option.value = keyval[1];
+                        $scope.selected.node.add(option);
+                    }
+                }
+            }
+        }
+    });
+</script>
