@@ -30,6 +30,8 @@ function maskText($string, format, maxlength, xlength){
 }
 
 function addEvt($input){    
+    var typingTimer;
+    var TypingInterval = 500;
 
 	var maxlength = $input.getAttribute('format').replace(/-/g,"").length;
 	var format = $input.getAttribute('format');
@@ -51,18 +53,23 @@ function addEvt($input){
     //on keyup, start the countdown
     $input.onkeyup = function (e) {
         e.preventDefault();
-    	if (e.which <= 57 && e.which >= 48 && hiddenEle.value.length < maxlength){
+    	if (((e.which <= 57 && e.which >= 48) || (e.keyCode >= 96 && e.keyCode <= 105)) && hiddenEle.value.length < maxlength && !e.shiftKey){
     		hiddenEle.value = hiddenEle.value + e.key
-    	}
-    	// remove charactor when key is backspace
-    	if (e.which == 8){
-    		hiddenEle.value = hiddenEle.value.substr(0, hiddenEle.value.length - 1);
-    	}
-    	$input.value = maskText(hiddenEle.value, format,maxlength,xlength);
+            $input.value = maskText(hiddenEle.value, format,maxlength,xlength);
+            console.log(e.which);
+    	}    	
     };
 
-    $input.onkeypress = function(e){
-        e.preventDefault();
+    $input.onkeydown = function(e){
+
+        if (e.which == 8){
+            $input.value = maskText(hiddenEle.value, format,maxlength,xlength);
+            hiddenEle.value = hiddenEle.value.substr(0, hiddenEle.value.length - 1);
+        }else if(e.which == 46){
+            console.log("delete button");
+        }else{
+            e.preventDefault();
+        }        
     }
 }
 

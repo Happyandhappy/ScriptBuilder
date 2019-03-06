@@ -13,16 +13,6 @@
         category: 'forms',
         icon: 'lock',
         attributes: {
-            'text    ': {
-                text: true,
-                value: '',
-                onAssign: function ($scope) {
-                    this.value = $scope.selected.node.getAttribute('value');
-                },
-                onChange: function ($scope, text) {
-                    $scope.selected.node.setAttribute('value', text);
-                }
-            },
             'Format': {
                 text : true,
                 value : "XXXX-XXXX-0000",
